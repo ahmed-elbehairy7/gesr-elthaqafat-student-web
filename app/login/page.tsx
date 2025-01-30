@@ -2,8 +2,6 @@
 
 import { InputFieldProps } from "@/components/inputField";
 import React from "react";
-import Logo from "@/assets/logo.png";
-import Image from "next/image";
 import { PasswordFieldProps } from "@/components/passwordField";
 import AuthForm from "@/components/authForm";
 
@@ -32,7 +30,7 @@ const LoginPage = () => {
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
-						onclick: () => alert("loging..."),
+						onclick: () => alert("loging..."), //backend todo log user in
 					},
 					otherWay: { href: "/signup", text: "new user" },
 				}}

@@ -61,7 +61,7 @@ const SignUpPage = () => {
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
-						onclick: () => alert("signing up..."),
+						onclick: () => alert("signing up..."), //backend todo sign user up and get the required data from him
 					},
 					otherWay: {
 						href: "/login",

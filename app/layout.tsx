@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="w-full h-full bg-gradient-to-t from-bright-two to-bright-one m-0 py-10">
+			<body className="w-full h-screen bg-gradient-to-t from-bright-two to-bright-one m-0 py-10">
 				<Suspense fallback={<Loading />}>{children}</Suspense>
 			</body>
 		</html>

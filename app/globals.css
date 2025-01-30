@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body.keyboard {
+	height: calc(100% + 500px); /* add padding for keyboard */
+}

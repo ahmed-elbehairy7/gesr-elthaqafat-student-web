@@ -5,21 +5,21 @@ import React from "react";
 import Logo from "@/assets/logo.png";
 import Image from "next/image";
 import { PasswordFieldProps } from "@/components/passwordField";
-import Form from "@/components/form";
+import AuthForm from "@/components/authForm";
 
 const LoginPage = () => {
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center">
-			<Image src={Logo} alt="logo" width={200} />
-			<Form
+			<AuthForm
 				{...{
+					title: "Login",
 					fields: [
 						{
 							type: "input",
 							props: {
-								placeholder: "Email or username",
-								type: "text",
-								id: "username",
+								placeholder: "email",
+								type: "email",
+								id: "email",
 							} as InputFieldProps,
 						},
 						{

@@ -1,7 +1,76 @@
+"use client";
+
+import AuthForm from "@/components/authForm";
 import React from "react";
+import { InputFieldProps } from "@/components/inputField";
+import { PasswordFieldProps } from "@/components/passwordField";
 
 const SignUpPage = () => {
-	return <div></div>;
+	return (
+		<main className="w-full h-full flex flex-col items-center justify-center">
+			<AuthForm
+				{...{
+					title: "Sign Up",
+					fields: [
+						{
+							type: "input",
+							props: {
+								placeholder: "First name",
+								type: "text",
+								id: "firstName",
+							} as InputFieldProps,
+						},
+						{
+							type: "input",
+							props: {
+								placeholder: "Last name",
+								type: "text",
+								id: "lastName",
+							} as InputFieldProps,
+						},
+						{
+							type: "input",
+							props: {
+								placeholder: "username",
+								type: "text",
+								id: "username",
+							} as InputFieldProps,
+						},
+						{
+							type: "input",
+							props: {
+								placeholder: "Email",
+								type: "email",
+								id: "email",
+							} as InputFieldProps,
+						},
+						{
+							type: "password",
+							props: { signup: true } as PasswordFieldProps,
+						},
+						{
+							type: "password",
+							props: {
+								confirm: true,
+								signup: true,
+							} as PasswordFieldProps,
+						},
+					],
+					mainButton: {
+						text: "Sign up",
+						backgroundOrBorderColor: "bg-primary-color",
+						fill: true,
+						textColor: "text-bright-one",
+						onclick: () => alert("signing up..."),
+					},
+					otherWay: {
+						href: "/login",
+						text: "Have an account",
+					},
+				}}
+			/>
+		</main>
+	);
 };
 
 export default SignUpPage;

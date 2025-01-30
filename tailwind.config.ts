@@ -13,6 +13,7 @@ export default {
 			},
 			borderRadius: {
 				inputField: "15px",
+				container: "40px",
 			},
 			colors: {
 				primary: "#0d309e",

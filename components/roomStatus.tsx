@@ -1,6 +1,6 @@
 import React from "react";
 
-const Status = ({ open, click }: StatusProps) => {
+const RoomStatus = ({ open, click }: RoomStatusProps) => {
 	return (
 		<div
 			className={`${
@@ -14,9 +14,9 @@ const Status = ({ open, click }: StatusProps) => {
 	);
 };
 
-export type StatusProps = {
+export type RoomStatusProps = {
 	open?: true;
-	click?: true;
+	click: boolean;
 };
 
-export default Status;
+export default RoomStatus;

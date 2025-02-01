@@ -11,7 +11,9 @@ import Logo from "@/assets/logo.png";
 const AuthForm = ({ title, fields, mainButton, otherWay }: AuthFormProps) => {
 	return (
 		<>
-			<Image src={Logo} alt="logo" width={200} className="-mb-14" />
+			<a href={process.env.HOST} className="">
+				<Image src={Logo} alt="logo" width={200} className="-mb-14" />
+			</a>
 			<h2 className="text-xl font-bold my-8">{title}</h2>
 			<form className="w-3/4 md:w-1/2 flex flex-col items-center justify-center space-y-6">
 				{fields.map((o, index) =>

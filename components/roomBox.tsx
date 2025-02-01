@@ -1,5 +1,5 @@
 import React from "react";
-import Status from "./status";
+import RoomStatus from "./roomStatus";
 
 const RoomBox = ({
 	teacher,
@@ -18,7 +18,7 @@ const RoomBox = ({
 				{!open && <h2>End: {end}</h2>}
 				<h2>language: {lang}</h2>
 			</div>
-			<Status open={open} click={click} />
+			<RoomStatus open={open} click={click} />
 		</div>
 	);
 };
@@ -29,7 +29,7 @@ export type RoomBoxProps = {
 	end?: string;
 	lang: "ar" | "ma";
 	open?: true;
-	click?: true;
+	click: boolean;
 	meetingLink: string;
 };
 export default RoomBox;

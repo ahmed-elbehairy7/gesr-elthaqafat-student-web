@@ -2,10 +2,11 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Container from "./container";
 import RoomBox, { RoomBoxProps } from "./roomBox";
 
-const RoomsContainer = ({ lang, setLang }: RoomsContainerProps) => {
+const RoomsContainer = ({ lang, setLang, eligible }: RoomsContainerProps) => {
 	const [rooms, setRooms] = useState<RoomBoxProps[]>([]);
 
 	useEffect(() => {
+		//backend todo fetch real available rooms
 		setRooms([
 			{
 				lang: "ar",
@@ -13,6 +14,7 @@ const RoomsContainer = ({ lang, setLang }: RoomsContainerProps) => {
 				start: "3 min ago",
 				open: true,
 				teacher: "Omar Abdelnaser",
+				click: eligible,
 			},
 			{
 				lang: "ar",
@@ -20,6 +22,7 @@ const RoomsContainer = ({ lang, setLang }: RoomsContainerProps) => {
 				start: "2 hrs ago",
 				end: "2 mins ago",
 				teacher: "Omar Abdelnaser",
+				click: eligible,
 			},
 		]);
 	}, []);
@@ -27,7 +30,11 @@ const RoomsContainer = ({ lang, setLang }: RoomsContainerProps) => {
 		<Container
 			title="Available rooms"
 			rightNode={
-				<select className="rounded-lg" defaultValue={lang}>
+				<select
+					className="rounded-lg"
+					defaultValue={lang}
+					onChange={(e) => setLang(e.target.value as "ar" | "ma")}
+				>
 					<option value={"ma"}>ma</option>
 					<option value={"ar"}>عر</option>
 				</select>
@@ -35,7 +42,7 @@ const RoomsContainer = ({ lang, setLang }: RoomsContainerProps) => {
 		>
 			<div className="space-y-5 md:space-y-10">
 				{rooms.map((v, index) => (
-					<RoomBox {...v} key={index} />
+					<RoomBox {...v} click={eligible} key={index} />
 				))}
 			</div>
 		</Container>
@@ -45,6 +52,7 @@ const RoomsContainer = ({ lang, setLang }: RoomsContainerProps) => {
 export type RoomsContainerProps = {
 	lang: "ar" | "ma";
 	setLang: Dispatch<SetStateAction<"ar" | "ma">>;
+	eligible: boolean;
 };
 
 export default RoomsContainer;

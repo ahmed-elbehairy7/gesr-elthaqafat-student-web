@@ -15,7 +15,7 @@ export default function Template({
 	);
 
 	useEffect(() => {
-		// focus events don't bubble, must use capture phase
+		// listen to keyboard focus
 		document.body.addEventListener(
 			"focus",
 			(event) => {
@@ -38,12 +38,10 @@ export default function Template({
 		);
 	}, []);
 	return (
-		<html lang="en">
-			<body className="w-screen h-screen bg-gradient-to-t from-bright-two to-bright-one m-0">
-				{!excludeHeaderAndFooter && <Header />}
-				{children}
-				{!excludeHeaderAndFooter && <Footer />}
-			</body>
-		</html>
+		<>
+			{!excludeHeaderAndFooter && <Header />}
+			{children}
+			{!excludeHeaderAndFooter && <Footer />}
+		</>
 	);
 }

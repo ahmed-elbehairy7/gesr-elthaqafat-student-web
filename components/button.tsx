@@ -10,6 +10,7 @@ function Button({
 	textColor = "#f2f2f2",
 	backgroundOrBorderColor = "#18cad3",
 	onclick,
+	disabled = false,
 }: ButtonProps) {
 	return (
 		<Link
@@ -24,6 +25,7 @@ function Button({
 		>
 			<button
 				aria-label={text}
+				disabled={disabled}
 				className={`font-bold text-base rounded-lg
           ${
 				!fill
@@ -49,4 +51,5 @@ export type ButtonProps = {
 	textColor?: string;
 	backgroundOrBorderColor?: string;
 	onclick?: Function;
+	disabled?: boolean;
 };

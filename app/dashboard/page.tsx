@@ -1,6 +1,7 @@
 "use client";
 
 import CodesContainer from "@/components/codesContainer";
+import NotifyBar from "@/components/notifyBar";
 import RoomsContainer from "@/components/roomsContainer";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -16,15 +17,22 @@ const DashboardPage = () => {
 	return (
 		<main className="flex flex-col items-center">
 			{disableAll && (
-				<Link
-					href={"/profile"}
-					className="p-3 w-5/6 text-sm rounded-md text-center text-errRed bg-errRed bg-opacity-20 border border-errRed"
-				>
-					<p>
-						Your account is not yet activated! activate it by
-						filling the required data here
-					</p>
-				</Link>
+				<NotifyBar
+					{...{
+						href: "/profile",
+						good: false,
+						text: "Your account is not yet activated! activate it by filling the required data here",
+					}}
+				/>
+			)}
+			{eligible && (
+				<NotifyBar
+					{...{
+						href: "/profile",
+						good: true,
+						text: "Welcome! you can enter any of the rooms by clicking on it!",
+					}}
+				/>
 			)}
 			<RoomsContainer {...{ disableAll, lang, setLang, eligible }} />
 			<CodesContainer {...{ disableAll, setEligible }} />

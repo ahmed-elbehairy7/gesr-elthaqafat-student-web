@@ -102,7 +102,7 @@ const ProfilePage = () => {
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
-						onclick: () => alert("signing up..."), //backend todo update user data
+						onclick: () => alert("saving changes..."), //backend todo update user data
 					},
 					otherWay: {
 						href: "/dashboard",

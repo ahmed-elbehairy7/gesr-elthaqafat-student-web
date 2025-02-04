@@ -7,7 +7,7 @@ import closeIcon from "@/assets/close icon.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const MenuBar = ({ name }: MenuBarProps) => {
+const MenuBar = () => {
 	const [showBar, setShowBar] = useState(false);
 	return (
 		<div className="z-10 md:hidden">
@@ -62,10 +62,6 @@ function MenuBarLink({ text, href }: MenuBarLinkProps) {
 		</Link>
 	);
 }
-
-export type MenuBarProps = {
-	name: string;
-};
 
 type MenuBarLinkProps = {
 	text: string;

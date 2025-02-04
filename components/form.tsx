@@ -22,7 +22,7 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 				</a>
 			)}
 			<h2
-				className={`text-xl font-bold w-3/4 ${
+				className={`text-xl font-bold w-3/4 md:w-1/2 ${
 					hideLogo ? "mb-8 text-left" : "my-8 text-center"
 				}`}
 			>

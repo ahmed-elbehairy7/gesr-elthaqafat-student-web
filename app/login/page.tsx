@@ -3,12 +3,12 @@
 import { InputFieldProps } from "@/components/inputField";
 import React from "react";
 import { PasswordFieldProps } from "@/components/passwordField";
-import AuthForm from "@/components/authForm";
+import Form from "@/components/form";
 
 const LoginPage = () => {
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center">
-			<AuthForm
+			<Form
 				{...{
 					title: "Login",
 					fields: [

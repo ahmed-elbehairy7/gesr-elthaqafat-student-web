@@ -8,7 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 
-const AuthForm = ({ title, fields, mainButton, otherWay }: AuthFormProps) => {
+const Form = ({ title, fields, mainButton, otherWay }: FormProps) => {
 	return (
 		<>
 			<a href={process.env.HOST} className="">
@@ -40,7 +40,7 @@ const AuthForm = ({ title, fields, mainButton, otherWay }: AuthFormProps) => {
 	);
 };
 
-export type AuthFormProps = {
+export type FormProps = {
 	title: string;
 	fields: {
 		type: "input" | "password";
@@ -50,4 +50,4 @@ export type AuthFormProps = {
 	otherWay: { text: string; href: string };
 };
 
-export default AuthForm;
+export default Form;

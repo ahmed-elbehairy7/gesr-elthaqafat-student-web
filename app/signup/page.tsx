@@ -1,6 +1,6 @@
 "use client";
 
-import AuthForm from "@/components/authForm";
+import Form from "@/components/form";
 import React from "react";
 import { InputFieldProps } from "@/components/inputField";
 import { PasswordFieldProps } from "@/components/passwordField";
@@ -8,7 +8,7 @@ import { PasswordFieldProps } from "@/components/passwordField";
 const SignUpPage = () => {
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center pt-10 pb-20">
-			<AuthForm
+			<Form
 				{...{
 					title: "Sign Up",
 					fields: [

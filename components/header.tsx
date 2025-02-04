@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "@/assets/logo.png";
 import Image from "next/image";
 import Button from "./button";
+import MenuBar from "./menuBar";
 
 const Header = () => {
 	const coins = 10; //backend todo get user coins
@@ -16,9 +17,10 @@ const Header = () => {
 				<div className="w-fit -m-6">
 					<Image src={Logo} alt="logo" width={125} />
 				</div>
-				<div className="flex flex-row items-center space-x-8">
+				<div className="flex flex-row items-center space-x-2 md:space-x-8">
 					<p className="font-semibold text-lg">{coins} 🪙</p>
 					<Button
+						className="hidden md:block"
 						{...{
 							text: name,
 							backgroundOrBorderColor: "border-black border-3",
@@ -28,6 +30,7 @@ const Header = () => {
 							customPadding: "py-[12px] px-[25px]",
 						}}
 					/>
+					<MenuBar />
 				</div>
 			</div>
 			<div className=" w-full h-0.5 bg-gradient-to-r from-transparent via-gray-600 to-transparent mt-2"></div>

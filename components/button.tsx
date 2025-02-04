@@ -12,6 +12,7 @@ function Button({
 	onclick,
 	disabled = false,
 	customPadding = "",
+	className,
 }: ButtonProps) {
 	return (
 		<Link
@@ -27,7 +28,8 @@ function Button({
 			<button
 				aria-label={text}
 				disabled={disabled}
-				className={`font-bold text-base rounded-lg
+				className={
+					`font-bold text-base rounded-lg
           ${
 				!fill
 					? `bg-transparent py-[14px] px-[55px] border-solid border-2`
@@ -36,7 +38,8 @@ function Button({
                     ${textColor}
                     ${backgroundOrBorderColor}
 					${customPadding}
-          `}
+          ` + className
+				}
 			>
 				<h4>{text}</h4>
 			</button>
@@ -55,4 +58,5 @@ export type ButtonProps = {
 	onclick?: Function;
 	disabled?: boolean;
 	customPadding?: string;
+	className?: string;
 };

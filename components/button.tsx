@@ -11,6 +11,7 @@ function Button({
 	backgroundOrBorderColor = "#18cad3",
 	onclick,
 	disabled = false,
+	customPadding = "",
 }: ButtonProps) {
 	return (
 		<Link
@@ -34,6 +35,7 @@ function Button({
 			}
                     ${textColor}
                     ${backgroundOrBorderColor}
+					${customPadding}
           `}
 			>
 				<h4>{text}</h4>
@@ -52,4 +54,5 @@ export type ButtonProps = {
 	backgroundOrBorderColor?: string;
 	onclick?: Function;
 	disabled?: boolean;
+	customPadding?: string;
 };

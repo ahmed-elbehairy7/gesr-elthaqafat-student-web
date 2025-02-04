@@ -20,7 +20,7 @@ const Header = () => {
 				</div>
 				<div className="flex flex-row items-center space-x-2 md:space-x-8">
 					<p className="font-semibold text-lg"></p>
-					<div className="flex flex-row items-center space-x-2 md:space-x-8">
+					<div className="hidden md:flex flex-row items-center space-x-2 md:space-x-8">
 						<Link href={"/dashboard"}>dashboard</Link>
 						<Button
 							{...{

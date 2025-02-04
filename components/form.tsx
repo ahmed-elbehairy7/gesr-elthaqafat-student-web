@@ -28,7 +28,10 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 			>
 				{title}
 			</h2>
-			<form className="w-3/4 md:w-1/2 flex flex-col items-center justify-center space-y-6">
+			<form
+				className="w-3/4 md:w-1/2 flex flex-col items-center justify-center space-y-6"
+				id="form"
+			>
 				{fields.map((o, index) =>
 					o.type == "input" ? (
 						<InputField
@@ -46,7 +49,20 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 					<Link href={otherWay.href} className="underline text-sm">
 						{otherWay.text}
 					</Link>
-					<Button {...mainButton} />
+					<Button
+						{...{
+							...mainButton,
+							onclick: () => {
+								if (
+									document
+										.querySelector("form")
+										?.reportValidity()
+								) {
+									(mainButton.onclick as Function)();
+								}
+							},
+						}}
+					/>
 				</div>
 			</form>
 		</>

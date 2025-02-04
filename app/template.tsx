@@ -19,8 +19,8 @@ export default function Template({
 		document.body.addEventListener(
 			"focus",
 			(event) => {
-				const target = event.target as any;
-				switch (target.tagName) {
+				const { target } = event;
+				switch ((target as unknown as { tagName: string }).tagName) {
 					case "INPUT":
 					case "TEXTAREA":
 					case "SELECT":

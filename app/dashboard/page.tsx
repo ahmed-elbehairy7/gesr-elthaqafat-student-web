@@ -3,7 +3,6 @@
 import CodesContainer from "@/components/codesContainer";
 import NotifyBar from "@/components/notifyBar";
 import RoomsContainer from "@/components/roomsContainer";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const DashboardPage = () => {
@@ -12,7 +11,9 @@ const DashboardPage = () => {
 	const [disableAll, setDisableAll] = useState<boolean>(true);
 	useEffect(() => {
 		//backend todo the logic to undisable all
-		setDisableAll(false);
+		if (localStorage.getItem("dataComplete") == "done") {
+			setDisableAll(false);
+		}
 	}, []);
 	return (
 		<main className="flex flex-col items-center">

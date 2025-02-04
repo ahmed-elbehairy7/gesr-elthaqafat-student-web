@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Container from "./container";
-import RoomBox, { RoomBoxProps } from "./roomBox";
+import RoomBox from "./roomBox";
 import RoomDetails, { roomDetailsData } from "./roomDetails";
 import Image from "next/image";
 import returnIcon from "@/assets/return.png";
@@ -28,7 +28,7 @@ const RoomsContainer = ({
 				onClick: () => null,
 			},
 		]);
-	}, []);
+	}, [eligible]);
 	return (
 		<Container
 			title={roomDetails == 0 ? "Available rooms" : "Room details"}
@@ -54,7 +54,7 @@ const RoomsContainer = ({
 					{(disableAll || rooms.length == 0) && (
 						<div className="m-auto pb-5">
 							<p className="font-semibold text-center opacity-50">
-								There's no any available rooms for now!
+								There&aposs no any available rooms for now!
 							</p>
 						</div>
 					)}
@@ -75,7 +75,9 @@ const RoomsContainer = ({
 				</>
 			) : (
 				<RoomDetails
-					{...(rooms.find((v, i) => i == roomDetails - 1) as any)}
+					{...(rooms.find(
+						(v, i) => i == roomDetails - 1
+					) as roomDetailsData)}
 				/>
 			)}
 		</Container>

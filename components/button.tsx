@@ -57,7 +57,7 @@ export type ButtonProps = {
 	fill?: boolean;
 	textColor?: string;
 	backgroundOrBorderColor?: string;
-	onclick?: Function;
+	onclick?: () => void | Promise<void> | null;
 	disabled?: boolean;
 	customPadding?: string;
 	className?: string;

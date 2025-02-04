@@ -58,7 +58,7 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 										.querySelector("form")
 										?.reportValidity()
 								) {
-									(mainButton.onclick as Function)();
+									(mainButton.onclick as () => null)();
 								}
 							},
 						}}

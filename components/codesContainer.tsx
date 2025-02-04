@@ -1,10 +1,10 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Container from "./container";
 import Button from "./button";
-import CodeBox from "./codeBox";
+import CodeBox, { CodeBoxProps } from "./codeBox";
 
 const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
-	const [codes, setCodes] = useState<any[]>([]);
+	const [codes, setCodes] = useState<CodeBoxProps[]>([]);
 	const [haveEnoughCoins, setHaveEnoughCoins] = useState<boolean>();
 	useEffect(() => {
 		setCodes([]); //backend todo set real codes
@@ -20,7 +20,7 @@ const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
 		setHaveEnoughCoins(
 			Number.parseInt(localStorage.getItem("coins") as string) >= 10
 		); //backend todo make a real check
-	}, [codes]);
+	}, [codes, setEligible]);
 	return (
 		<Container title="Available codes">
 			{(disableAll || codes.length == 0) && (
@@ -80,15 +80,17 @@ async function generateCode({
 
 	localStorage.setItem(
 		"coins",
-		(Number.parseInt(localStorage.getItem("coins")) - 10).toString()
+		(
+			Number.parseInt(localStorage.getItem("coins") as string) - 10
+		).toString()
 	);
 }
 
 type generateCodeParameters = {
 	setEligible: Dispatch<SetStateAction<boolean>>;
-	setCodes: Dispatch<SetStateAction<any[]>>; //todo fix type
-	codes: any[]; //todo fix type
-	localStorage: any;
+	setCodes: Dispatch<SetStateAction<CodeBoxProps[]>>; //todo fix type
+	codes: CodeBoxProps[]; //todo fix type
+	localStorage: Storage;
 };
 
 export type CodesContainerProps = {

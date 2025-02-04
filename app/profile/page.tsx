@@ -2,10 +2,12 @@
 
 import Form from "@/components/form";
 import { InputFieldProps } from "@/components/inputField";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
 	const [name, setName] = useState("");
+	const router = useRouter();
 
 	useEffect(() => {
 		setName("Ahmed Elbehairy"); //backend todo fetch real name
@@ -102,7 +104,11 @@ const ProfilePage = () => {
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
-						onclick: () => alert("saving changes..."), //backend todo update user data
+						onclick: () => {
+							localStorage.setItem("dataComplete", "done");
+							alert("saving changes...");
+							router.push("/");
+						}, //backend todo update user data
 					},
 					otherWay: {
 						href: "/dashboard",

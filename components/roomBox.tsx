@@ -1,4 +1,4 @@
-import React, { MouseEvent, MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 import RoomStatus from "./roomStatus";
 
 const RoomBox = ({

@@ -25,7 +25,7 @@ const NotifyBar = ({ href = "/", onClick, good, text }: NotifyBarProps) => {
 
 export type NotifyBarProps = {
 	href?: string;
-	onClick?: Function;
+	onClick?: () => null;
 	good: boolean;
 	text: string;
 };

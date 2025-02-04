@@ -1,7 +1,7 @@
 import React from "react";
 import CodeStatus from "./codeStatus";
 
-const CodeBox = ({ code, id, studentId, expires }: CodeBoxProps) => {
+const CodeBox = ({ code, expires }: CodeBoxProps) => {
 	return (
 		<div className="bg-bright-one py-3 px-3 md:px-16 flex flex-row rounded-2xl justify-between items-center">
 			<div className="font-semibold text-sm">

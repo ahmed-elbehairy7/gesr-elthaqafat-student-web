@@ -55,6 +55,7 @@ const RoomDetails = ({
 						fill: true,
 						link: meetingLink,
 						textColor: "text-bright-one",
+						target: "_blank",
 					}}
 				/>
 			</div>

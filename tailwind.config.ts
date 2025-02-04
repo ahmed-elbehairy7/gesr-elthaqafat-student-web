@@ -16,7 +16,6 @@ export default {
 				container: "40px",
 			},
 			colors: {
-				primary: "#0d309e",
 				"primary-color": "#0d309e",
 				"secondary-color": "#60148c",
 				"accent-color": "#18cad3",

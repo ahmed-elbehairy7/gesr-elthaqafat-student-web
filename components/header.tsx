@@ -21,7 +21,12 @@ const Header = () => {
 				<div className="flex flex-row items-center space-x-2 md:space-x-8">
 					<p className="font-semibold text-lg"></p>
 					<div className="hidden md:flex flex-row items-center space-x-2 md:space-x-8">
-						<Link href={"/dashboard"}>dashboard</Link>
+						<Link
+							className="hover:text-primary-color hover:underline underline-offset-8"
+							href={"/dashboard"}
+						>
+							dashboard
+						</Link>
 						<Button
 							{...{
 								text: `${name} [${coins}🪙]`,

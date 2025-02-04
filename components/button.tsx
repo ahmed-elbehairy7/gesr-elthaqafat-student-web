@@ -13,9 +13,11 @@ function Button({
 	disabled = false,
 	customPadding = "",
 	className,
+	target,
 }: ButtonProps) {
 	return (
 		<Link
+			target={target}
 			href={link}
 			onClick={
 				onclick &&
@@ -59,4 +61,5 @@ export type ButtonProps = {
 	disabled?: boolean;
 	customPadding?: string;
 	className?: string;
+	target?: React.HTMLAttributeAnchorTarget;
 };

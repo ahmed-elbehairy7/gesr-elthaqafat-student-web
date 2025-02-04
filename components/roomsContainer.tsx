@@ -2,6 +2,8 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Container from "./container";
 import RoomBox, { RoomBoxProps } from "./roomBox";
 import RoomDetails, { roomDetailsData } from "./roomDetails";
+import Image from "next/image";
+import returnIcon from "@/assets/return.png";
 
 const RoomsContainer = ({
 	disableAll,
@@ -32,7 +34,9 @@ const RoomsContainer = ({
 			title={roomDetails == 0 ? "Available rooms" : "Room details"}
 			rightNode={
 				roomDetails ? (
-					<button onClick={() => setRoomDetails(0)}>{"<="}</button>
+					<button onClick={() => setRoomDetails(0)}>
+						<Image alt="return-icon" src={returnIcon} width={20} />
+					</button>
 				) : (
 					<select
 						className="rounded-lg"

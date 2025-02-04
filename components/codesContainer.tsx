@@ -3,7 +3,7 @@ import Container from "./container";
 import Button from "./button";
 import CodeBox from "./codeBox";
 
-const CodesContainer = ({ setEligible }: CodesContainerProps) => {
+const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
 	const [codes, setCodes] = useState<any[]>([]);
 	const [haveEnoughCoins, setHaveEnoughCoins] = useState<boolean>();
 	useEffect(() => {
@@ -23,7 +23,7 @@ const CodesContainer = ({ setEligible }: CodesContainerProps) => {
 	}, [codes]);
 	return (
 		<Container title="Available codes">
-			{codes.length == 0 && (
+			{(disableAll || codes.length == 0) && (
 				<div className="m-auto pb-5">
 					<p className="font-semibold text-center opacity-50">
 						You don’t have any codes yet!
@@ -33,18 +33,20 @@ const CodesContainer = ({ setEligible }: CodesContainerProps) => {
 					</p>
 				</div>
 			)}
-			{codes.length > 0 &&
+			{!disableAll &&
+				codes.length > 0 &&
 				codes.map((v, index) => <CodeBox key={index} {...v} />)}
 			<div className="flex justify-center w-full mt-7">
 				<Button
 					{...{
 						text: "Generate a conversation code (10 🪙)",
-						backgroundOrBorderColor: haveEnoughCoins
-							? "bg-primary-color"
-							: "bg-black opacity-50",
+						backgroundOrBorderColor:
+							haveEnoughCoins && !disableAll
+								? "bg-primary-color"
+								: "bg-black opacity-50",
 						fill: true,
 						textColor: "text-bright-one",
-						disabled: !haveEnoughCoins,
+						disabled: !haveEnoughCoins || disableAll,
 						onclick: () =>
 							generateCode({
 								setEligible,
@@ -90,6 +92,7 @@ type generateCodeParameters = {
 };
 
 export type CodesContainerProps = {
+	disableAll: boolean;
 	setEligible: Dispatch<SetStateAction<boolean>>;
 };
 

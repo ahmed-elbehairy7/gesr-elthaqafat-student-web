@@ -24,6 +24,7 @@ export default {
 				"bright-two": "#ccc",
 				"dark-one": "#040e30",
 				"dark-two": "#1d062a",
+				errRed: "#c33",
 				test: "#34fe41",
 			},
 		},

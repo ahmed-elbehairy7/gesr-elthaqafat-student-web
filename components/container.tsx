@@ -10,7 +10,7 @@ const Container = ({
 		<section
 			className={`w-5/6 rounded-container bg-bright-two py-8 px-8 my-3 ${className}`}
 		>
-			<div className="flex flex-row justify-between mb-10">
+			<div className="flex flex-row justify-between mb-6">
 				<div className="flex flex-col">
 					<h2 className="text-lg font-bold">{title}</h2>
 					<div className="w-20 h-0.5"></div>

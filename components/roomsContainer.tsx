@@ -54,7 +54,7 @@ const RoomsContainer = ({
 					{(disableAll || rooms.length == 0) && (
 						<div className="m-auto pb-5">
 							<p className="font-semibold text-center opacity-50">
-								There&aposs no any available rooms for now!
+								{"There's no any available rooms for now!"}
 							</p>
 						</div>
 					)}

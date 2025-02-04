@@ -15,7 +15,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="w-full h-fit m-0 p-0">
+			<body className="w-full h-full m-0 p-0">
 				<div className="fixed -z-10 top-0 w-full h-full bg-gradient-to-t from-bright-two to-bright-one"></div>
 				<Suspense fallback={<Loading />}>{children}</Suspense>
 			</body>

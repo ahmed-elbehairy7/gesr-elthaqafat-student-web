@@ -8,13 +8,26 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/assets/logo.png";
 
-const Form = ({ title, fields, mainButton, otherWay }: FormProps) => {
+const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 	return (
 		<>
-			<a href={process.env.HOST} className="">
-				<Image src={Logo} alt="logo" width={200} className="-mb-14" />
-			</a>
-			<h2 className="text-xl font-bold my-8">{title}</h2>
+			{!hideLogo && (
+				<a href={process.env.HOST} className="">
+					<Image
+						src={Logo}
+						alt="logo"
+						width={200}
+						className="-mb-14"
+					/>
+				</a>
+			)}
+			<h2
+				className={`text-xl font-bold w-3/4 ${
+					hideLogo ? "mb-8 text-left" : "my-8 text-center"
+				}`}
+			>
+				{title}
+			</h2>
 			<form className="w-3/4 md:w-1/2 flex flex-col items-center justify-center space-y-6">
 				{fields.map((o, index) =>
 					o.type == "input" ? (
@@ -42,6 +55,7 @@ const Form = ({ title, fields, mainButton, otherWay }: FormProps) => {
 
 export type FormProps = {
 	title: string;
+	hideLogo?: boolean;
 	fields: {
 		type: "input" | "password";
 		props: InputFieldProps | PasswordFieldProps;

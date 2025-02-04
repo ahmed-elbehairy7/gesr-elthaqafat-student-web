@@ -30,7 +30,7 @@ const Header = () => {
 							customPadding: "py-[12px] px-[25px]",
 						}}
 					/>
-					<MenuBar />
+					<MenuBar {...{ name }} />
 				</div>
 			</div>
 			<div className=" w-full h-0.5 bg-gradient-to-r from-transparent via-gray-600 to-transparent mt-2"></div>

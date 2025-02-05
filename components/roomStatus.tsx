@@ -1,6 +1,7 @@
+import { roomStatusLocaleType } from "@/locales/dashboard";
 import React from "react";
 
-const RoomStatus = ({ open, click }: RoomStatusProps) => {
+const RoomStatus = ({ open, click, locale }: RoomStatusProps) => {
 	return (
 		<div
 			className={`${
@@ -12,7 +13,7 @@ const RoomStatus = ({ open, click }: RoomStatusProps) => {
 			} bg-opacity-50 rounded-lg h-fit py-2 px-2`}
 		>
 			<p className=" text-black opacity-100 text-xs font-semibold">
-				{open ? (click ? "click to join" : "OPEN") : "ENDED"}
+				{open ? (click ? locale.click : locale.open) : locale.ended}
 			</p>
 		</div>
 	);
@@ -21,6 +22,7 @@ const RoomStatus = ({ open, click }: RoomStatusProps) => {
 export type RoomStatusProps = {
 	open?: true;
 	click: boolean;
+	locale: roomStatusLocaleType;
 };
 
 export default RoomStatus;

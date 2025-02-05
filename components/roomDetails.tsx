@@ -5,7 +5,7 @@ import Image from "next/image";
 import copyIcon from "@/assets/copy.png";
 
 const RoomDetails = ({
-	lang,
+	subject,
 	meetingLink,
 	start,
 	teacher,
@@ -22,7 +22,7 @@ const RoomDetails = ({
 		<div className="font-bold flex flex-col justify-center space-y-2 max-w-full">
 			<h3 className="font-bold text-base">{teacher}</h3>
 			<p className="text-sm">start: {start}</p>
-			<p className="text-sm">Language: {lang}</p>
+			<p className="text-sm">subject: {subject}</p>
 			<div className="my-2 flex flex-row justify-between items-center">
 				<p className="break-words text-xs font-medium w-3/4">
 					{meetingLink}

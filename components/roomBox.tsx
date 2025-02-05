@@ -1,14 +1,17 @@
 import React, { MouseEventHandler } from "react";
 import RoomStatus from "./roomStatus";
+import { roomBoxLocaleType, subjectsLocaleType } from "@/locales/dashboard";
 
 const RoomBox = ({
 	teacher,
 	start,
 	end,
-	lang,
+	subject,
+	subjectsLocale,
 	open,
 	click,
 	onClick,
+	locale,
 }: RoomBoxProps) => {
 	return (
 		<div
@@ -19,11 +22,19 @@ const RoomBox = ({
 		>
 			<div className="font-semibold text-sm">
 				<h2>{teacher}</h2>
-				<h2>start: {start}</h2>
-				{!open && <h2>End: {end}</h2>}
-				<h2>language: {lang}</h2>
+				<h2>
+					{locale.start}: {start}
+				</h2>
+				{!open && (
+					<h2>
+						{locale.end}: {end}
+					</h2>
+				)}
+				<h2>
+					{locale.subject}: {subjectsLocale[subject]}
+				</h2>
 			</div>
-			<RoomStatus open={open} click={click} />
+			<RoomStatus locale={locale.status} open={open} click={click} />
 		</div>
 	);
 };
@@ -32,9 +43,11 @@ export type RoomBoxProps = {
 	teacher: string;
 	start: string;
 	end?: string;
-	lang: "ar" | "ma";
+	subject: "ar" | "mw" | "quran" | "tajweed" | "communicationSkills";
 	open?: true;
 	click: boolean;
 	onClick: MouseEventHandler<HTMLDivElement>;
+	locale: roomBoxLocaleType;
+	subjectsLocale: subjectsLocaleType;
 };
 export default RoomBox;

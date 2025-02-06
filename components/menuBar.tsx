@@ -6,8 +6,9 @@ import menuIcon from "@/assets/menu icon.png";
 import closeIcon from "@/assets/close icon.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { menuBarLocaleType } from "@/locales/common";
 
-const MenuBar = () => {
+const MenuBar = ({ locale }: { locale: menuBarLocaleType }) => {
 	const [showBar, setShowBar] = useState(false);
 	return (
 		<div className="z-10 md:hidden">
@@ -35,8 +36,8 @@ const MenuBar = () => {
 			>
 				<div className="mt-20 flex flex-col">
 					{[
-						{ href: "/dashboard", text: "dashboard" },
-						{ href: "/profile", text: "profile" },
+						{ href: "/dashboard", text: locale.dashboard },
+						{ href: "/profile", text: locale.profile },
 					].map((v, index) => (
 						<MenuBarLink {...v} key={index} />
 					))}

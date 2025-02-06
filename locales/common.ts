@@ -2,7 +2,11 @@ export type localeType = "ar" | "en" | "mw";
 export type Locale<T> = { ar: T; en: T; mw: T };
 
 export type headerLocaleType = {
-	menuBar: { dashboard: string; profile: string };
+	menuBar: menuBarLocaleType;
+};
+export type menuBarLocaleType = {
+	dashboard: string;
+	profile: string;
 };
 
 export type formCommonLocaleType = {

@@ -4,10 +4,14 @@ import Image from "next/image";
 import Button from "./button";
 import MenuBar from "./menuBar";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { headerLocale, localeType } from "@/locales/common";
 
 const Header = () => {
 	const coins = 10; //backend todo get user coins
 	const [name, setName] = useState<string>("");
+	const params = useParams();
+	const locale = headerLocale[params.locale as localeType];
 	useEffect(() => {
 		localStorage.setItem("coins", coins.toString());
 		setName("Ahmed Elbehairy"); //backend todo fetch real name
@@ -36,7 +40,7 @@ const Header = () => {
 							}}
 						/>
 					</div>
-					<MenuBar />
+					<MenuBar locale={locale.menuBar} />
 				</div>
 			</div>
 			<div className=" w-full h-0.5 bg-gradient-to-r from-transparent via-gray-600 to-transparent mt-2"></div>

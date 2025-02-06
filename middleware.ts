@@ -7,7 +7,7 @@ import { i18nRouter } from "next-i18n-router";
 export function middleware(request: NextRequest) {
 	let { pathname } = request.nextUrl;
 	pathname = pathname.replace(RegExp("/(ar|en|mw)"), "");
-	if (pathname === "/") {
+	if (["", "/"].includes(pathname)) {
 		return NextResponse.redirect(new URL("/dashboard", request.url));
 	}
 

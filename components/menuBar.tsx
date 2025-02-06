@@ -51,7 +51,7 @@ function MenuBarLink({ text, href }: MenuBarLinkProps) {
 
 	return (
 		<Link
-			className={` w-full py-3.5 pl-6 font-medium  ${
+			className={` w-full py-3.5 px-6 font-medium  ${
 				href === pathname
 					? "bg-accent-color text-dark-two"
 					: "text-bright-one border-b border-bright-one"

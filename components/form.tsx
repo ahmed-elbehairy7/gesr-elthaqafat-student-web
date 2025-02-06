@@ -23,7 +23,9 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 			)}
 			<h2
 				className={`text-xl font-bold w-3/4 md:w-1/2 ${
-					hideLogo ? "mb-8 text-left" : "my-8 text-center"
+					hideLogo
+						? "mb-8 text-left rtl:text-right"
+						: "my-8 text-center"
 				}`}
 			>
 				{title}
@@ -45,7 +47,7 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 						/>
 					)
 				)}
-				<div className="flex w-full flex-row justify-between items-end">
+				<div className="flex w-full flex-row rtl:flex-row-reverse justify-between items-end">
 					<Link href={otherWay.href} className="underline text-sm">
 						{otherWay.text}
 					</Link>

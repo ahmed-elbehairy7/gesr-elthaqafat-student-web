@@ -8,8 +8,8 @@ import { roomsContainerLocaleType } from "@/locales/dashboard";
 
 const RoomsContainer = ({
 	disableAll,
-	lang,
-	setLang,
+	subject,
+	setSubject,
 	eligible,
 	locale,
 }: RoomsContainerProps) => {
@@ -38,7 +38,7 @@ const RoomsContainer = ({
 
 	return (
 		<Container
-			title={roomDetails == 0 ? locale.title : "Room details"}
+			title={roomDetails == 0 ? locale.title : locale.roomBox.roomDetails}
 			rightNode={
 				roomDetails ? (
 					<button onClick={() => setRoomDetails(0)}>
@@ -47,8 +47,10 @@ const RoomsContainer = ({
 				) : (
 					<select
 						className="rounded-lg"
-						defaultValue={lang}
-						onChange={(e) => setLang(e.target.value as "ar" | "ma")}
+						defaultValue={subject}
+						onChange={(e) =>
+							setSubject(e.target.value as "ar" | "ma")
+						}
 					>
 						<option value={"mw"}>{subjects.mw}</option>
 						<option value={"ar"}>{subjects.ar}</option>
@@ -98,8 +100,8 @@ const RoomsContainer = ({
 
 export type RoomsContainerProps = {
 	disableAll: boolean;
-	lang: "ar" | "ma";
-	setLang: Dispatch<SetStateAction<"ar" | "ma">>;
+	subject: string;
+	setSubject: Dispatch<SetStateAction<string>>;
 	eligible: boolean;
 	locale: roomsContainerLocaleType;
 };

@@ -2,27 +2,33 @@
 
 import Form from "@/components/form";
 import { InputFieldProps } from "@/components/inputField";
-import { useRouter } from "next/navigation";
+import { localeType } from "@/locales/common";
+import profileLocale, { profileLocaleType } from "@/locales/profile";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const ProfilePage = () => {
 	const [name, setName] = useState("");
 	const router = useRouter();
+	const params = useParams();
+
+	const locale = profileLocale[params.locale as localeType];
 
 	useEffect(() => {
 		setName("Ahmed Elbehairy"); //backend todo fetch real name
 	}, []);
+
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center pb-20">
 			<Form
 				{...{
 					hideLogo: true,
-					title: `Welcome ${name}`,
+					title: `${locale.welcome} ${name}`,
 					fields: [
 						{
 							type: "input",
 							props: {
-								placeholder: "First name",
+								placeholder: locale.firstName,
 								type: "text",
 								id: "firstName",
 							} as InputFieldProps,
@@ -30,7 +36,7 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder: "Last name",
+								placeholder: locale.lastName,
 								type: "text",
 								id: "lastName",
 							} as InputFieldProps,
@@ -38,7 +44,7 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder: "username",
+								placeholder: locale.username,
 								type: "text",
 								id: "username",
 							} as InputFieldProps,
@@ -46,7 +52,7 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder: "Email",
+								placeholder: locale.email,
 								type: "email",
 								id: "email",
 							} as InputFieldProps,
@@ -54,20 +60,26 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder: "gender",
+								placeholder: locale.genders.title,
 								type: "select",
 								id: "gender",
 								label: "gender",
 								options: [
-									{ text: "male", value: "male" },
-									{ text: "female", value: "female" },
+									{
+										text: locale.genders.male,
+										value: "male",
+									},
+									{
+										text: locale.genders.female,
+										value: "female",
+									},
 								],
 							} as InputFieldProps,
 						},
 						{
 							type: "input",
 							props: {
-								placeholder: "birthdate",
+								placeholder: locale.birthdate,
 								type: "date",
 								id: "birthdate",
 							} as InputFieldProps,
@@ -75,7 +87,7 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder: "nationality",
+								placeholder: locale.nationality,
 								type: "text",
 								id: "nationality",
 							} as InputFieldProps,
@@ -83,8 +95,7 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder:
-									"Tell us about your experience in learning",
+								placeholder: locale.experience,
 								type: "textArea",
 								id: "experience",
 							} as InputFieldProps,
@@ -92,15 +103,14 @@ const ProfilePage = () => {
 						{
 							type: "input",
 							props: {
-								placeholder:
-									"What do you want to achieve by learning new language?",
+								placeholder: locale.goal,
 								type: "textArea",
 								id: "goal",
 							} as InputFieldProps,
 						},
 					],
 					mainButton: {
-						text: "save changes",
+						text: locale.save,
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
@@ -112,7 +122,7 @@ const ProfilePage = () => {
 					},
 					otherWay: {
 						href: "/dashboard",
-						text: "back",
+						text: locale.back,
 					},
 				}}
 			/>

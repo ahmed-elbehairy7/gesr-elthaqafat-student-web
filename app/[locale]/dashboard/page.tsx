@@ -9,7 +9,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashboardPage = () => {
-	const [lang, setLang] = useState<"ma" | "ar">("ar");
+	const [subject, setSubject] = useState<string>("ar");
 	const [eligible, setEligible] = useState<boolean>(false);
 	const [disableAll, setDisableAll] = useState<boolean>(true);
 
@@ -29,16 +29,17 @@ const DashboardPage = () => {
 					{...{
 						href: "/profile",
 						good: false,
-						text: "Your account is not yet activated! activate it by filling the required data here",
+						text: locale.notifyBar.notActivated,
 					}}
 				/>
 			)}
 			{eligible && (
 				<NotifyBar
+					className="cursor-default"
 					{...{
-						href: "/profile",
+						onClick: () => null,
 						good: true,
-						text: "Welcome! you can enter any of the rooms by clicking on it!",
+						text: locale.notifyBar.youAreNowEligible,
 					}}
 				/>
 			)}
@@ -46,12 +47,14 @@ const DashboardPage = () => {
 				{...{
 					locale: locale.roomsContainer,
 					disableAll,
-					lang,
-					setLang,
+					subject,
+					setSubject,
 					eligible,
 				}}
 			/>
-			<CodesContainer {...{ disableAll, setEligible }} />
+			<CodesContainer
+				{...{ locale: locale.codesContainer, disableAll, setEligible }}
+			/>
 		</main>
 	);
 };

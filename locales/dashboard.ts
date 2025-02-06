@@ -1,12 +1,17 @@
+import { Locale } from "./common";
+
 export type dashboardLocaleType = {
+	notifyBar: notifyBarLocaleType;
 	roomsContainer: roomsContainerLocaleType;
-	// codesContainer: codesContainerLocaleType;
+	codesContainer: codesContainerLocaleType;
+};
+export type notifyBarLocaleType = {
+	notActivated: string;
+	youAreNowEligible: string;
 };
 export type roomsContainerLocaleType = {
 	title: string;
 	noAvailableRooms: string;
-	notActivated: string;
-	youAreNowEligible: string;
 	subjects: subjectsLocaleType;
 	roomBox: roomBoxLocaleType;
 };
@@ -23,6 +28,9 @@ export type roomBoxLocaleType = {
 	end: string;
 	subject: string;
 	status: roomStatusLocaleType;
+	roomDetails: string;
+	joinConversation: string;
+	copied: string;
 };
 export type roomStatusLocaleType = {
 	open: string;
@@ -32,17 +40,33 @@ export type roomStatusLocaleType = {
 
 export type codesContainerLocaleType = {
 	title: string;
-	noAvailableCodes: string;
+	noAvailableCodes1: string;
+	noAvailableCodes2: string;
 	generateAConversationCode: string;
+	codeBox: codeBoxLocaleType;
+};
+export type codeBoxLocaleType = {
+	code: string;
+	expires: string;
+	status: codeStatusLocaleType;
+};
+
+export type codeStatusLocaleType = {
+	available: string;
+	used: string;
+	expired: string;
 };
 
 const ar: dashboardLocaleType = {
+	notifyBar: {
+		notActivated: "حسابك ليس مفعلًا بعد! اضغط هنا لتتفعيله",
+
+		youAreNowEligible:
+			"مرحبا بك! يمكنك الآن الدخول في أي من الغرف عن طريق الضغط عليها",
+	},
 	roomsContainer: {
 		title: "الغرف المتاحة",
 		noAvailableRooms: "لا يوجد غرف متاحة حاليا!",
-		notActivated: "حسابك ليس مفعلًا بعد! اضغط هنا لتتفعيله",
-		youAreNowEligible:
-			"مرحبا بك! يمكنك الآن الدخول في أي من الغرف عن طريق الضغط عليها",
 		subjects: {
 			ar: "العربية",
 			communicationSkills: "مهارات التواصل",
@@ -59,18 +83,40 @@ const ar: dashboardLocaleType = {
 				open: "مفتوحة",
 			},
 			subject: "المادة",
+			roomDetails: "تفاصيل الغرفة",
+			joinConversation: "انضم لغرفة المحادثة",
+			copied: "تم النسخ",
+		},
+	},
+	codesContainer: {
+		title: "الرموز المتاحة",
+
+		generateAConversationCode: "أنشئ رمزا للمحادثة",
+		noAvailableCodes1: "لا يوجد لديك رموز متاحة!",
+		noAvailableCodes2: "أنشئ رمزا لتتمكن من الدخول إلى غرفة محادثة",
+		codeBox: {
+			code: "الرمز",
+			expires: "ينتهي في",
+			status: {
+				available: "متاح",
+				expired: "انتهى",
+				used: "استعمل",
+			},
 		},
 	},
 };
 
 const en: dashboardLocaleType = {
-	roomsContainer: {
-		title: "Available rooms",
-		noAvailableRooms: "There's no any available rooms for now!",
+	notifyBar: {
 		notActivated:
 			"Your account is not yet activated! click here to activate",
 		youAreNowEligible:
 			"Welcome! you can now enter any of the rooms by clicking on it!",
+	},
+	roomsContainer: {
+		title: "Available rooms",
+		noAvailableRooms: "There's no any available rooms for now!",
+
 		subjects: {
 			ar: "arabic",
 			communicationSkills: "communication skills",
@@ -87,18 +133,40 @@ const en: dashboardLocaleType = {
 				open: "OPEN",
 			},
 			subject: "subject",
+			roomDetails: "Room details",
+			joinConversation: "join conversation room",
+			copied: "copied",
+		},
+	},
+	codesContainer: {
+		title: "Available codes",
+
+		generateAConversationCode: "Generate a conversation code",
+		noAvailableCodes1: "You don't have any codes yet!",
+		noAvailableCodes2: "Generate one to enter a conversation room",
+		codeBox: {
+			code: "code",
+			expires: "expires",
+			status: {
+				available: "AVAILABLE",
+				expired: "EXPIRED",
+				used: "USED",
+			},
 		},
 	},
 };
 
 const mw: dashboardLocaleType = {
-	roomsContainer: {
-		title: "Available rooms",
-		noAvailableRooms: "There's no any available rooms for now!",
+	notifyBar: {
 		notActivated:
 			"Your account is not yet activated! click here to activate",
 		youAreNowEligible:
 			"Welcome! you can now enter any of the rooms by clicking on it!",
+	},
+	roomsContainer: {
+		title: "Available rooms",
+		noAvailableRooms: "There's no any available rooms for now!",
+
 		subjects: {
 			ar: "arabic",
 			communicationSkills: "communication skills",
@@ -115,11 +183,30 @@ const mw: dashboardLocaleType = {
 				open: "OPEN",
 			},
 			subject: "subject",
+			roomDetails: "Room details",
+			joinConversation: "join conversation room",
+			copied: "copied",
+		},
+	},
+	codesContainer: {
+		title: "Available codes",
+
+		generateAConversationCode: "Generate a conversation code",
+		noAvailableCodes1: "You don't have any codes yet!",
+		noAvailableCodes2: "Generate one to enter a conversation room",
+		codeBox: {
+			code: "code",
+			expires: "expires",
+			status: {
+				available: "AVAILABLE",
+				expired: "EXPIRED",
+				used: "USED",
+			},
 		},
 	},
 };
 
-const dashboardLocale = {
+const dashboardLocale: Locale<dashboardLocaleType> = {
 	ar,
 	en,
 	mw,

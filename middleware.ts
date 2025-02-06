@@ -5,7 +5,11 @@ import { i18nRouter } from "next-i18n-router";
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
-	// return NextResponse.redirect(new URL("/dashboard", request.url));
+	let { pathname } = request.nextUrl;
+	pathname = pathname.replace(RegExp("/(ar|en|mw)"), "");
+	if (pathname === "/") {
+		return NextResponse.redirect(new URL("/dashboard", request.url));
+	}
 
 	return i18nRouter(request, i18nConfig);
 }

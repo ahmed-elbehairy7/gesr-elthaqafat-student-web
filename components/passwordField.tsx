@@ -17,7 +17,7 @@ const PasswordField = (props: PasswordFieldProps) => {
 				{...{
 					id: name,
 					name,
-					placeholder: props.confirm ? "confirm password" : name,
+					placeholder: props.placeholder,
 					type: show,
 					autoComplete,
 					minLength: 8,
@@ -44,6 +44,7 @@ const PasswordField = (props: PasswordFieldProps) => {
 export type PasswordFieldProps = {
 	confirm?: true;
 	signup?: true;
+	placeholder: string;
 };
 
 export default PasswordField;

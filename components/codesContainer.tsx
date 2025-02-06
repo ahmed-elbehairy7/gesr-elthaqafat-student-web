@@ -2,8 +2,16 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Container from "./container";
 import Button from "./button";
 import CodeBox, { CodeBoxProps } from "./codeBox";
+import {
+	codeBoxLocaleType,
+	codesContainerLocaleType,
+} from "@/locales/dashboard";
 
-const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
+const CodesContainer = ({
+	disableAll,
+	setEligible,
+	locale,
+}: CodesContainerProps) => {
 	const [codes, setCodes] = useState<CodeBoxProps[]>([]);
 	const [haveEnoughCoins, setHaveEnoughCoins] = useState<boolean>();
 	useEffect(() => {
@@ -22,14 +30,14 @@ const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
 		); //backend todo make a real check
 	}, [codes, setEligible]);
 	return (
-		<Container title="Available codes">
+		<Container title={locale.title}>
 			{(disableAll || codes.length == 0) && (
 				<div className="m-auto pb-5">
 					<p className="font-semibold text-center opacity-50">
-						You don’t have any codes yet!
+						{locale.noAvailableCodes1}
 						<br />
 						<br />
-						Generate one to enter a conversation room!
+						{locale.noAvailableCodes2}
 					</p>
 				</div>
 			)}
@@ -39,7 +47,7 @@ const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
 			<div className="flex justify-center w-full mt-7">
 				<Button
 					{...{
-						text: "Generate a conversation code (10 🪙)",
+						text: `${locale.generateAConversationCode} (10 🪙)`,
 						backgroundOrBorderColor:
 							haveEnoughCoins && !disableAll
 								? "bg-primary-color"
@@ -53,6 +61,7 @@ const CodesContainer = ({ disableAll, setEligible }: CodesContainerProps) => {
 								codes,
 								setCodes,
 								localStorage,
+								locale: locale.codeBox,
 							}),
 					}}
 				/>
@@ -65,6 +74,7 @@ async function generateCode({
 	setEligible,
 	setCodes,
 	codes,
+	locale,
 	localStorage,
 }: generateCodeParameters) {
 	const code = {
@@ -72,9 +82,10 @@ async function generateCode({
 		studentId: "currentStudentId",
 		code: "F34G8E",
 		expires: new Date(Date.now()).toLocaleString(),
+		locale: locale,
 	}; //backend todo get a real code
 
-	setCodes([...codes, code]);
+	setCodes([code]);
 
 	setEligible(true);
 
@@ -91,11 +102,13 @@ type generateCodeParameters = {
 	setCodes: Dispatch<SetStateAction<CodeBoxProps[]>>; //todo fix type
 	codes: CodeBoxProps[]; //todo fix type
 	localStorage: Storage;
+	locale: codeBoxLocaleType;
 };
 
 export type CodesContainerProps = {
 	disableAll: boolean;
 	setEligible: Dispatch<SetStateAction<boolean>>;
+	locale: codesContainerLocaleType;
 };
 
 export default CodesContainer;

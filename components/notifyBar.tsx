@@ -1,7 +1,13 @@
 import Link from "next/link";
 import React from "react";
 
-const NotifyBar = ({ href = "/", onClick, good, text }: NotifyBarProps) => {
+const NotifyBar = ({
+	href = "/",
+	onClick,
+	good,
+	text,
+	className,
+}: NotifyBarProps) => {
 	return (
 		<Link
 			href={href}
@@ -16,7 +22,7 @@ const NotifyBar = ({ href = "/", onClick, good, text }: NotifyBarProps) => {
 				good
 					? "text-primary-color bg-primary-color border-primary-color"
 					: "text-errRed bg-errRed border-errRed"
-			} bg-opacity-20 border `}
+			} bg-opacity-20 border ${className} `}
 		>
 			<p>{text}</p>
 		</Link>
@@ -28,6 +34,7 @@ export type NotifyBarProps = {
 	onClick?: () => null;
 	good: boolean;
 	text: string;
+	className?: string;
 };
 
 export default NotifyBar;

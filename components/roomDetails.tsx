@@ -3,12 +3,15 @@ import { RoomBoxProps } from "./roomBox";
 import Button from "./button";
 import Image from "next/image";
 import copyIcon from "@/assets/copy.png";
+import { subjectsLocaleType } from "@/locales/dashboard";
 
 const RoomDetails = ({
 	subject,
 	meetingLink,
 	start,
 	teacher,
+	locale,
+	subjectsLocale,
 }: roomDetailsData) => {
 	const [copied, setCopied] = useState(false);
 	useEffect(() => {
@@ -21,8 +24,12 @@ const RoomDetails = ({
 	return (
 		<div className="font-bold flex flex-col justify-center space-y-2 max-w-full">
 			<h3 className="font-bold text-base">{teacher}</h3>
-			<p className="text-sm">start: {start}</p>
-			<p className="text-sm">subject: {subject}</p>
+			<p className="text-sm">
+				{locale.start}: {start}
+			</p>
+			<p className="text-sm">
+				{locale.subject}: {subjectsLocale[subject]}
+			</p>
 			<div className="my-2 flex flex-row justify-between items-center">
 				<p className="break-words text-xs font-medium w-3/4">
 					{meetingLink}
@@ -42,7 +49,7 @@ const RoomDetails = ({
 					)}
 					{copied && (
 						<p className="text-black font-normal text-sm ">
-							copied ✨
+							{locale.copied} ✨
 						</p>
 					)}
 				</a>
@@ -50,7 +57,7 @@ const RoomDetails = ({
 			<div className="flex flex-col items-center w-full mt-3">
 				<Button
 					{...{
-						text: "Join conversation room",
+						text: locale.joinConversation,
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						link: meetingLink,
@@ -65,6 +72,7 @@ const RoomDetails = ({
 
 export interface roomDetailsData extends RoomBoxProps {
 	meetingLink: string;
+	subjectsLocale: subjectsLocaleType;
 }
 
 export default RoomDetails;

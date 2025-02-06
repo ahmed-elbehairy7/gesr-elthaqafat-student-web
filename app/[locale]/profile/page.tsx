@@ -3,7 +3,7 @@
 import Form from "@/components/form";
 import { InputFieldProps } from "@/components/inputField";
 import { localeType } from "@/locales/common";
-import profileLocale, { profileLocaleType } from "@/locales/profile";
+import profileLocale from "@/locales/profile";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 

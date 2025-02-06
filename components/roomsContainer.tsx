@@ -34,7 +34,7 @@ const RoomsContainer = ({
 				subjectsLocale: subjects,
 			},
 		]);
-	}, [eligible]);
+	}, [eligible, locale.roomBox, subjects]);
 
 	return (
 		<Container

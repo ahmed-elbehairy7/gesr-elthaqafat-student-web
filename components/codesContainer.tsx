@@ -85,7 +85,7 @@ async function generateCode({
 		locale: locale,
 	}; //backend todo get a real code
 
-	setCodes([code]);
+	setCodes([...codes, code]);
 
 	setEligible(true);
 

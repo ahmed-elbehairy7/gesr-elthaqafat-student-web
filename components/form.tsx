@@ -12,7 +12,7 @@ const Form = ({ hideLogo, title, fields, mainButton, otherWay }: FormProps) => {
 	return (
 		<>
 			{!hideLogo && (
-				<a href={process.env.HOST} className="">
+				<a href={process.env.NEXT_PUBLIC_HOST} className="">
 					<Image
 						src={Logo}
 						alt="logo"

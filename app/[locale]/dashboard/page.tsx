@@ -9,7 +9,6 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const DashboardPage = () => {
-	const [subject, setSubject] = useState<string>("ar");
 	const [eligible, setEligible] = useState<boolean>(false);
 	const [disableAll, setDisableAll] = useState<boolean>(true);
 
@@ -47,8 +46,6 @@ const DashboardPage = () => {
 				{...{
 					locale: locale.roomsContainer,
 					disableAll,
-					subject,
-					setSubject,
 					eligible,
 				}}
 			/>

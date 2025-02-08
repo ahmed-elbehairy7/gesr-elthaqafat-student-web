@@ -22,6 +22,7 @@ export type subjectsLocaleType = {
 	quran: string;
 	tajweed: string;
 	communicationSkills: string;
+	chooseSubject: string;
 };
 export type roomBoxLocaleType = {
 	start: string;
@@ -73,6 +74,7 @@ const ar: dashboardLocaleType = {
 			mw: "المالاوية",
 			quran: "قرآن",
 			tajweed: "تجويد",
+			chooseSubject: "اختر مادة",
 		},
 		roomBox: {
 			start: "فتحت",
@@ -123,6 +125,7 @@ const en: dashboardLocaleType = {
 			mw: "Malawi",
 			quran: "Quran",
 			tajweed: "Tajweed",
+			chooseSubject: "choose subject",
 		},
 		roomBox: {
 			start: "start",
@@ -173,6 +176,7 @@ const mw: dashboardLocaleType = {
 			mw: "Malawi",
 			quran: "Quran",
 			tajweed: "Tajweed",
+			chooseSubject: "choose subject",
 		},
 		roomBox: {
 			start: "start",

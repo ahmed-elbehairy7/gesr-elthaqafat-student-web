@@ -8,32 +8,18 @@ import { roomsContainerLocaleType } from "@/locales/dashboard";
 
 const RoomsContainer = ({
 	disableAll,
-	subject,
-	setSubject,
 	eligible,
 	locale,
 }: RoomsContainerProps) => {
 	const [rooms, setRooms] = useState<roomDetailsData[]>([]);
 	const [roomDetails, setRoomDetails] = useState<number>(0);
+	const [subject, setSubject] = useState("None");
 
 	const { subjects } = locale;
 
 	useEffect(() => {
 		//backend todo fetch real available rooms
-		setRooms([
-			{
-				meetingLink:
-					"https://us50.zoom.us/fdsfefsdfheufsfheskfhueskfusefhilsehfuselfijlsehflsehfislehfisle",
-				start: "3 mins ago",
-				open: true,
-				teacher: "Omar Abdelnaser",
-				click: eligible,
-				onClick: () => null,
-				locale: locale.roomBox,
-				subject: "ar",
-				subjectsLocale: subjects,
-			},
-		]);
+		setRooms([]);
 	}, [eligible, locale.roomBox, subjects]);
 
 	return (
@@ -46,12 +32,15 @@ const RoomsContainer = ({
 					</button>
 				) : (
 					<select
-						className="rounded-lg"
-						defaultValue={subject}
+						className="rounded-lg text-xs md:text-base w-2/5 md:w-fit"
+						defaultValue={"None"}
 						onChange={(e) =>
 							setSubject(e.target.value as "ar" | "ma")
 						}
 					>
+						<option value={"None"} disabled>
+							{subjects.chooseSubject}
+						</option>
 						<option value={"mw"}>{subjects.mw}</option>
 						<option value={"ar"}>{subjects.ar}</option>
 						<option value={"communicationSkills"}>
@@ -100,8 +89,6 @@ const RoomsContainer = ({
 
 export type RoomsContainerProps = {
 	disableAll: boolean;
-	subject: string;
-	setSubject: Dispatch<SetStateAction<string>>;
 	eligible: boolean;
 	locale: roomsContainerLocaleType;
 };

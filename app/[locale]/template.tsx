@@ -11,7 +11,7 @@ export default function Template({
 	children: React.ReactNode;
 }>) {
 	const excludeHeaderAndFooter = ["signup", "login"].includes(
-		usePathname().replace("/", "")
+		usePathname().replace(RegExp("/(en|ar|mw)/"), "")
 	);
 
 	useEffect(() => {

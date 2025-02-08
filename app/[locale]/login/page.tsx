@@ -7,12 +7,13 @@ import Form from "@/components/form";
 import { useParams } from "next/navigation";
 import loginLocale from "@/locales/login";
 import { localeType } from "@/locales/common";
+import LanguageChanger from "@/components/languageChanger";
 
 const LoginPage = () => {
 	const params = useParams();
 	const locale = loginLocale[params.locale as localeType];
 	return (
-		<main className="w-full h-full flex flex-col items-center justify-center pb-10">
+		<main className="w-full h-full flex flex-col items-center justify-center pb-10 space-y-10">
 			<Form
 				{...{
 					title: locale.login,
@@ -43,6 +44,7 @@ const LoginPage = () => {
 					otherWay: { href: "/signup", text: locale.signup },
 				}}
 			/>
+			<LanguageChanger dark={true} />
 		</main>
 	);
 };

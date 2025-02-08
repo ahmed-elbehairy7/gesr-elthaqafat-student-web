@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "./container";
 import RoomBox from "./roomBox";
 import RoomDetails, { roomDetailsData } from "./roomDetails";
@@ -13,7 +13,6 @@ const RoomsContainer = ({
 }: RoomsContainerProps) => {
 	const [rooms, setRooms] = useState<roomDetailsData[]>([]);
 	const [roomDetails, setRoomDetails] = useState<number>(0);
-	const [subject, setSubject] = useState("None");
 
 	const { subjects } = locale;
 
@@ -34,9 +33,6 @@ const RoomsContainer = ({
 					<select
 						className="rounded-lg text-xs md:text-base w-2/5 md:w-fit"
 						defaultValue={"None"}
-						onChange={(e) =>
-							setSubject(e.target.value as "ar" | "ma")
-						}
 					>
 						<option value={"None"} disabled>
 							{subjects.chooseSubject}

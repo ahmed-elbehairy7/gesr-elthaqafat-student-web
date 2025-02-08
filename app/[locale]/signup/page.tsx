@@ -7,12 +7,13 @@ import { PasswordFieldProps } from "@/components/passwordField";
 import { useParams } from "next/navigation";
 import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
+import LanguageChanger from "@/components/languageChanger";
 
 const SignUpPage = () => {
 	const params = useParams();
 	const locale = signupLocale[params.locale as localeType];
 	return (
-		<main className="w-full h-full flex flex-col items-center justify-center pb-10">
+		<main className="w-full h-full flex flex-col items-center justify-center pb-10 space-y-10">
 			<Form
 				{...{
 					title: locale.signup,
@@ -78,6 +79,7 @@ const SignUpPage = () => {
 					},
 				}}
 			/>
+			<LanguageChanger dark={true} />
 		</main>
 	);
 };

@@ -1,6 +1,8 @@
+import { Metadata } from "next";
 import { formCommonLocale, formCommonLocaleType, Locale } from "./common";
 
 export interface profileLocaleType extends formCommonLocaleType {
+	metaData: Metadata;
 	welcome: string;
 	genders: { title: string; male: string; female: string };
 	birthdate: string;
@@ -12,6 +14,9 @@ export interface profileLocaleType extends formCommonLocaleType {
 }
 
 const ar: profileLocaleType = {
+	metaData: {
+		title: "جسر الثقافات | الحساب",
+	},
 	welcome: "مرحبا",
 	...formCommonLocale.ar,
 	genders: {
@@ -28,6 +33,9 @@ const ar: profileLocaleType = {
 };
 
 const en: profileLocaleType = {
+	metaData: {
+		title: "Gesr-Elthaqafat | profile",
+	},
 	welcome: "Welcome",
 	...formCommonLocale.en,
 	genders: {
@@ -44,6 +52,9 @@ const en: profileLocaleType = {
 };
 
 const mw: profileLocaleType = {
+	metaData: {
+		title: "Gesr-Elthaqafat | profile",
+	},
 	welcome: "Welcome",
 	...formCommonLocale.mw,
 	genders: {

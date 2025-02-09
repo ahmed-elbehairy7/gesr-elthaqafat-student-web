@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 export type localeType = "ar" | "en" | "mw";
 export type Locale<T> = { ar: T; en: T; mw: T };
 
@@ -19,6 +21,56 @@ export type formCommonLocaleType = {
 	password: string;
 	firstName: string;
 	lastName: string;
+};
+
+const commonMetaData: Locale<{ title: string; description: string }> = {
+	ar: {
+		title: "جسر الثقافات",
+		description:
+			"جسر الثقافات | تعلم اللغات و القرآن و التجويد و مهارات التواصل بسهولة و بساطة",
+	},
+	en: {
+		title: "Gesr-Elthaqafat",
+		description:
+			"Gesr-Elthaqafat | Learn languages, Quran, Tajweed, and communication skills easily and simply",
+	},
+	mw: {
+		title: "Gesr-Elthaqafat",
+		description:
+			"Gesr-Elthaqafat | Learn languages, Quran, Tajweed, and communication skills easily and simply",
+	},
+};
+
+export const defaultMetaData: Locale<Metadata> = {
+	ar: {
+		...commonMetaData.ar,
+		openGraph: {
+			...commonMetaData.ar,
+			images: [{ url: `${process.env.HOST}/logo.png` }],
+		},
+		keywords:
+			"جسر الثقافات, تعلم اللغات, تعلم القرآن, تعلم التجويد, تعلم مهارات التواصل",
+	},
+	en: {
+		...commonMetaData.en,
+		openGraph: {
+			...commonMetaData.en,
+			images: [{ url: `${process.env.HOST}/logo.png` }],
+		},
+
+		keywords:
+			"Gesr-Elthaqafat, learn languages, learn Quran, learn Tajweed, learn communication skills",
+	},
+	mw: {
+		...commonMetaData.mw,
+		openGraph: {
+			...commonMetaData.mw,
+			images: [{ url: `${process.env.HOST}/logo.png` }],
+		},
+
+		keywords:
+			"Gesr-Elthaqafat, learn languages, learn Quran, learn Tajweed, learn communication skills",
+	},
 };
 
 export const headerLocale: Locale<headerLocaleType> = {

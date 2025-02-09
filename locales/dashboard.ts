@@ -1,6 +1,8 @@
+import { Metadata } from "next";
 import { Locale } from "./common";
 
 export type dashboardLocaleType = {
+	metaData: Metadata;
 	notifyBar: notifyBarLocaleType;
 	roomsContainer: roomsContainerLocaleType;
 	codesContainer: codesContainerLocaleType;
@@ -59,6 +61,9 @@ export type codeStatusLocaleType = {
 };
 
 const ar: dashboardLocaleType = {
+	metaData: {
+		title: "لوحة التحكم | جسر الثقافات",
+	},
 	notifyBar: {
 		notActivated: "حسابك ليس مفعلًا بعد! اضغط هنا لتتفعيله",
 
@@ -109,6 +114,9 @@ const ar: dashboardLocaleType = {
 };
 
 const en: dashboardLocaleType = {
+	metaData: {
+		title: "Dashboard | Gesr-Elthaqafat",
+	},
 	notifyBar: {
 		notActivated:
 			"Your account is not yet activated! click here to activate",
@@ -160,6 +168,9 @@ const en: dashboardLocaleType = {
 };
 
 const mw: dashboardLocaleType = {
+	metaData: {
+		title: "Dashboard | Gesr-Elthaqafat",
+	},
 	notifyBar: {
 		notActivated:
 			"Your account is not yet activated! click here to activate",

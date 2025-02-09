@@ -1,7 +1,6 @@
 import { defaultMetaData, localeType } from "@/locales/common";
-import loginLocale from "@/locales/login";
+import signupLocale from "@/locales/signup";
 import { Metadata } from "next";
-import React from "react";
 
 interface MetadataProps {
 	params: Promise<{ locale: string }>;
@@ -13,10 +12,9 @@ export async function generateMetadata({
 	const { locale } = await params;
 	return {
 		...defaultMetaData[locale as localeType],
-		...loginLocale[locale as localeType].metaData,
+		...signupLocale[locale as localeType].metaData,
 	};
 }
-
 const Layout = ({ children }: { children: Readonly<React.ReactNode> }) => {
 	return <>{children}</>;
 };

@@ -19,7 +19,6 @@ export type formCommonLocaleType = {
 	password: string;
 	firstName: string;
 	lastName: string;
-	username: string;
 };
 
 export const headerLocale: Locale<headerLocaleType> = {
@@ -38,21 +37,18 @@ export const formCommonLocale: Locale<formCommonLocaleType> = {
 	en: {
 		firstName: "First name",
 		lastName: "Last name",
-		username: "username",
 		email: "email",
 		password: "password",
 	},
 	ar: {
 		firstName: "الاسم الأول",
 		lastName: "الاسم الأخير",
-		username: "اسم المستخدم",
 		email: "البريد الإلكتروني",
 		password: "كلمة السر",
 	},
 	mw: {
 		firstName: "First name",
 		lastName: "Last name",
-		username: "username",
 		email: "email",
 		password: "password",
 	},

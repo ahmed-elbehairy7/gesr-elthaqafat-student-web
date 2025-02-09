@@ -41,14 +41,7 @@ const ProfilePage = () => {
 								id: "lastName",
 							} as InputFieldProps,
 						},
-						{
-							type: "input",
-							props: {
-								placeholder: locale.username,
-								type: "text",
-								id: "username",
-							} as InputFieldProps,
-						},
+
 						{
 							type: "input",
 							props: {

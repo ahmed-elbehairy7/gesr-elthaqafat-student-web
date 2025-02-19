@@ -6,6 +6,9 @@ import {
 	codeBoxLocaleType,
 	codesContainerLocaleType,
 } from "@/locales/dashboard";
+import apiClient from "@/utils/apiClient";
+import getCookie from "@/utils/getCookie";
+import coins from "@/utils/coins";
 
 const CodesContainer = ({
 	disableAll,
@@ -15,10 +18,10 @@ const CodesContainer = ({
 	const [codes, setCodes] = useState<CodeBoxProps[]>([]);
 	const [haveEnoughCoins, setHaveEnoughCoins] = useState<boolean>();
 	useEffect(() => {
-		setCodes([]); //backend todo set real codes
-		setHaveEnoughCoins(
-			Number.parseInt(localStorage.getItem("coins") as string) >= 10
-		); //backend todo make a real check
+		(async () => {
+			setCodes(await apiClient.get("/codes"));
+			setHaveEnoughCoins((await coins()) == 10);
+		})();
 	}, []);
 
 	useEffect(() => {

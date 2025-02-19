@@ -8,7 +8,7 @@ import { useParams } from "next/navigation";
 import { headerLocale, localeType } from "@/locales/common";
 import { decodeJwt } from "jose";
 import getCookie from "@/utils/getCookie";
-import apiClient from "@/utils/apiClient";
+import * as getCoins from "@/utils/coins";
 
 const Header = () => {
 	const [coins, setCoins] = useState(0);
@@ -17,21 +17,8 @@ const Header = () => {
 	const locale = headerLocale[params.locale as localeType];
 	useEffect(() => {
 		(async () => {
-			const date = new Date(new Date(Date.now()).toDateString());
-
-			const lastDailyUsed =
-				getCookie("lastDailyUsed") ||
-				(await apiClient.get("/user/student")).lastDailyUsed ||
-				new Date(0).toString();
-
-			if (lastDailyUsed === date.toString()) {
-				setCoins(0);
-			} else {
-				setCoins(10);
-			}
-			document.cookie = `lastDailyUsed=${lastDailyUsed};`;
-
 			const { usr }: any = decodeJwt(getCookie("accessToken"));
+			setCoins(await getCoins.default());
 			setName(`${usr.fn} ${usr.ln}`);
 		})();
 	}, []);

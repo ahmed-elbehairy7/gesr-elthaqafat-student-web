@@ -5,6 +5,7 @@ import RoomDetails, { roomDetailsData } from "./roomDetails";
 import Image from "next/image";
 import returnIcon from "@/assets/return.png";
 import { roomsContainerLocaleType } from "@/locales/dashboard";
+import apiClient from "@/utils/apiClient";
 
 const RoomsContainer = ({
 	disableAll,
@@ -13,13 +14,20 @@ const RoomsContainer = ({
 }: RoomsContainerProps) => {
 	const [rooms, setRooms] = useState<roomDetailsData[]>([]);
 	const [roomDetails, setRoomDetails] = useState<number>(0);
+	const [subject, setSubject] = useState("None");
 
 	const { subjects } = locale;
 
 	useEffect(() => {
-		//backend todo fetch real available rooms
-		setRooms([]);
-	}, [eligible, locale.roomBox, subjects]);
+		(async () => {
+			if (subject !== "None") {
+				const rooms = await apiClient.get(
+					`/rooms/available/${subject}`
+				);
+				setRooms(rooms);
+			}
+		})();
+	}, [subject]);
 
 	return (
 		<Container
@@ -33,6 +41,7 @@ const RoomsContainer = ({
 					<select
 						className="rounded-lg text-xs md:text-base w-2/5 md:w-fit"
 						defaultValue={"None"}
+						onChange={(e) => setSubject(e.target.value)}
 					>
 						<option value={"None"} disabled>
 							{subjects.chooseSubject}

@@ -2,13 +2,9 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Container from "./container";
 import Button from "./button";
 import CodeBox, { CodeBoxProps } from "./codeBox";
-import {
-	codeBoxLocaleType,
-	codesContainerLocaleType,
-} from "@/locales/dashboard";
+import { codesContainerLocaleType } from "@/locales/dashboard";
 import apiClient from "@/utils/apiClient";
-import getCookie from "@/utils/getCookie";
-import coins from "@/utils/coins";
+import * as getCoins from "@/utils/coins";
 
 const CodesContainer = ({
 	disableAll,
@@ -16,11 +12,12 @@ const CodesContainer = ({
 	locale,
 }: CodesContainerProps) => {
 	const [codes, setCodes] = useState<CodeBoxProps[]>([]);
-	const [haveEnoughCoins, setHaveEnoughCoins] = useState<boolean>();
+	const [coins, setCoins] = useState<number>(0);
+
 	useEffect(() => {
 		(async () => {
 			setCodes(await apiClient.get("/codes"));
-			setHaveEnoughCoins((await coins()) == 10);
+			setCoins(await getCoins.default());
 		})();
 	}, []);
 
@@ -28,9 +25,7 @@ const CodesContainer = ({
 		if (codes.length > 0) {
 			setEligible(true);
 		}
-		setHaveEnoughCoins(
-			Number.parseInt(localStorage.getItem("coins") as string) >= 10
-		); //backend todo make a real check
+		(async () => setCoins(await getCoins.default()))();
 	}, [codes, setEligible]);
 	return (
 		<Container title={locale.title}>
@@ -46,25 +41,24 @@ const CodesContainer = ({
 			)}
 			{!disableAll &&
 				codes.length > 0 &&
-				codes.map((v, index) => <CodeBox key={index} {...v} />)}
-			<div className="flex justify-center w-full mt-7">
+				codes.map((v, index) => (
+					<CodeBox key={index} {...v} locale={locale.codeBox} />
+				))}
+			<div className="flex flex-col items-center justify-center w-full mt-7">
 				<Button
 					{...{
 						text: `${locale.generateAConversationCode} (10 🪙)`,
 						backgroundOrBorderColor:
-							haveEnoughCoins && !disableAll
+							coins > 0 && !disableAll
 								? "bg-primary-color"
 								: "bg-black opacity-50",
 						fill: true,
 						textColor: "text-bright-one",
-						disabled: !haveEnoughCoins || disableAll,
+						disabled: coins == 0 || disableAll,
 						onclick: () =>
 							generateCode({
-								setEligible,
 								codes,
 								setCodes,
-								localStorage,
-								locale: locale.codeBox,
 							}),
 					}}
 				/>
@@ -73,39 +67,18 @@ const CodesContainer = ({
 	);
 };
 
-async function generateCode({
-	setEligible,
-	setCodes,
-	codes,
-	locale,
-	localStorage,
-}: generateCodeParameters) {
-	const code = {
-		id: "fesdfefsefes",
-		studentId: "currentStudentId",
-		code: "F34G8E",
-		expires: new Date(Date.now()).toLocaleString(),
-		locale: locale,
-	}; //backend todo get a real code
+async function generateCode({ setCodes, codes }: generateCodeParameters) {
+	const code: any = await apiClient.post("/codes");
 
-	setCodes([...codes, code]);
-
-	setEligible(true);
-
-	localStorage.setItem(
-		"coins",
-		(
-			Number.parseInt(localStorage.getItem("coins") as string) - 10
-		).toString()
-	);
+	if (!code.error) {
+		setCodes([...codes, code]);
+	}
+	document.cookie = "updateLastDailyUsed=true";
 }
 
 type generateCodeParameters = {
-	setEligible: Dispatch<SetStateAction<boolean>>;
-	setCodes: Dispatch<SetStateAction<CodeBoxProps[]>>; //todo fix type
-	codes: CodeBoxProps[]; //todo fix type
-	localStorage: Storage;
-	locale: codeBoxLocaleType;
+	setCodes: Dispatch<SetStateAction<CodeBoxProps[]>>;
+	codes: CodeBoxProps[];
 };
 
 export type CodesContainerProps = {

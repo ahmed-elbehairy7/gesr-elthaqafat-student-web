@@ -9,24 +9,35 @@ export class ApiClient {
 		this.host = host;
 	}
 
-	private _fetch = async (route: string, init?: ApiClientRequestInit) => {
-		if (!getCookie("generatedARefreshToken")) {
+	private _fetch = async (
+		route: string,
+		protect: boolean,
+		init?: ApiClientRequestInit
+	) => {
+		const headers = new Headers({
+			"Content-Type": "application/json",
+			...init?.headers,
+		});
+
+		// if this is a new session generate a new refreshToken
+		if (protect && !getCookie("generatedARefreshToken")) {
 			await this.getRefreshToken();
 			document.cookie = "generatedARefreshToken=true";
+			headers.append(
+				"Authorization",
+				`Bearer ${getCookie("accessToken")}`
+			);
 		}
 		const response = await (
 			await fetch(`${this.host}/${this.ver}${route}`, {
 				...init,
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${getCookie("accessToken")}`,
-					...init?.headers,
-				},
+				headers: headers,
 				body: JSON.stringify(init?.body),
 			})
 		).json();
 
-		if (!getCookie("no-refresh")) {
+		// if the accessToken needs to refresh, generate a new one
+		if (protect && !getCookie("no-refresh")) {
 			await this.getAccessToken();
 		}
 
@@ -78,9 +89,13 @@ export class ApiClient {
 		additionals: any,
 		{ formData, setErrors }: formProps
 	) => {
-		const response = await apiClient.post(`/user/${route}`, {
-			body: { ...formData, ...additionals },
-		});
+		const response = await apiClient.post(
+			`/user/${route}`,
+			{
+				body: { ...formData, ...additionals },
+			},
+			false
+		);
 
 		if (response.errors) {
 			setErrors(response.errors);
@@ -103,23 +118,39 @@ export class ApiClient {
 	// -------------------- methods functions
 
 	// post
-	post = async (route: string, init?: ApiClientRequestInit) => {
-		return await this._fetch(route, { ...init, method: "post" });
+	post = async (
+		route: string,
+		init?: ApiClientRequestInit,
+		protect: boolean = true
+	) => {
+		return await this._fetch(route, protect, { ...init, method: "post" });
 	};
 
 	// get
-	get = async (route: string, init?: ApiClientRequestInit) => {
-		return await this._fetch(route, { ...init, method: "get" });
+	get = async (
+		route: string,
+		init?: ApiClientRequestInit,
+		protect: boolean = true
+	) => {
+		return await this._fetch(route, protect, { ...init, method: "get" });
 	};
 
 	// put
-	put = async (route: string, init?: ApiClientRequestInit) => {
-		return await this._fetch(route, { ...init, method: "put" });
+	put = async (
+		route: string,
+		init?: ApiClientRequestInit,
+		protect: boolean = true
+	) => {
+		return await this._fetch(route, protect, { ...init, method: "put" });
 	};
 
 	// delete
-	delete = async (route: string, init?: ApiClientRequestInit) => {
-		return await this._fetch(route, { ...init, method: "delete" });
+	delete = async (
+		route: string,
+		init?: ApiClientRequestInit,
+		protect: boolean = true
+	) => {
+		return await this._fetch(route, protect, { ...init, method: "delete" });
 	};
 }
 

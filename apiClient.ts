@@ -73,10 +73,13 @@ export class ApiClient {
 		).toUTCString()}`;
 	};
 
-	// ---------- signup handler
-	async signup({ formData, setErrors }: formProps) {
-		const response = await await apiClient.post(`/user/signup`, {
-			body: { ...formData, type: "student" },
+	private _auth = async (
+		route: "signup" | "login",
+		additionals: any,
+		{ formData, setErrors }: formProps
+	) => {
+		const response = await apiClient.post(`/user/${route}`, {
+			body: { ...formData, ...additionals },
 		});
 
 		if (response.errors) {
@@ -86,7 +89,17 @@ export class ApiClient {
 		localStorage.setItem("refreshToken", response.refreshToken);
 		await this.getAccessToken();
 		return true;
+	};
+	// ---------- signup handler
+	async signup(props: formProps) {
+		return await this._auth("signup", { type: "student" }, props);
 	}
+
+	// ---------- login handler
+	async login(props: formProps) {
+		return await this._auth("login", {}, props);
+	}
+
 	// -------------------- methods functions
 
 	// post

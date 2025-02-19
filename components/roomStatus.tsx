@@ -1,11 +1,11 @@
 import { roomStatusLocaleType } from "@/locales/dashboard";
 import React from "react";
 
-const RoomStatus = ({ open, click, locale }: RoomStatusProps) => {
+const RoomStatus = ({ status, click, locale }: RoomStatusProps) => {
 	return (
 		<div
 			className={`${
-				open
+				status === 1
 					? click
 						? "bg-accent-color"
 						: "bg-secondary-color"
@@ -13,14 +13,18 @@ const RoomStatus = ({ open, click, locale }: RoomStatusProps) => {
 			} bg-opacity-50 rounded-lg h-fit py-2 px-2`}
 		>
 			<p className=" text-black opacity-100 text-xs font-semibold">
-				{open ? (click ? locale.click : locale.open) : locale.ended}
+				{status === 1
+					? click
+						? locale.click
+						: locale.open
+					: locale.ended}
 			</p>
 		</div>
 	);
 };
 
 export type RoomStatusProps = {
-	open?: true;
+	status: 1 | 0;
 	click: boolean;
 	locale: roomStatusLocaleType;
 };

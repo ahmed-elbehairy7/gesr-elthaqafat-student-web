@@ -72,6 +72,8 @@ const RoomsContainer = ({
 								<RoomBox
 									{...v}
 									click={eligible}
+									locale={locale.roomBox}
+									subjectsLocale={subjects}
 									key={index}
 									onClick={() =>
 										eligible && setRoomDetails(index + 1)

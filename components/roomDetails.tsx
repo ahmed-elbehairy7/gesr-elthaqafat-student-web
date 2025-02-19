@@ -7,8 +7,8 @@ import { subjectsLocaleType } from "@/locales/dashboard";
 
 const RoomDetails = ({
 	subject,
-	meetingLink,
-	start,
+	link,
+	createdAt,
 	teacher,
 	locale,
 	subjectsLocale,
@@ -25,21 +25,19 @@ const RoomDetails = ({
 		<div className="font-bold flex flex-col justify-center space-y-2 max-w-full">
 			<h3 className="font-bold text-base">{teacher}</h3>
 			<p className="text-sm">
-				{locale.start}: {start}
+				{locale.start}: {createdAt}
 			</p>
 			<p className="text-sm">
 				{locale.subject}: {subjectsLocale[subject]}
 			</p>
 			<div className="my-2 flex flex-row justify-between items-center">
-				<p className="break-words text-xs font-medium w-3/4">
-					{meetingLink}
-				</p>
+				<p className="break-words text-xs font-medium w-3/4">{link}</p>
 				<a
 					className={`hidden md:block ${
 						copied ? "" : "cursor-pointer"
 					}`}
 					onClick={() => {
-						navigator.clipboard.writeText(meetingLink);
+						navigator.clipboard.writeText(link);
 						setCopied(true);
 					}}
 					aria-disabled={copied}
@@ -60,7 +58,7 @@ const RoomDetails = ({
 						text: locale.joinConversation,
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
-						link: meetingLink,
+						link,
 						textColor: "text-bright-one",
 						target: "_blank",
 					}}
@@ -71,7 +69,7 @@ const RoomDetails = ({
 };
 
 export interface roomDetailsData extends RoomBoxProps {
-	meetingLink: string;
+	link: string;
 	subjectsLocale: subjectsLocaleType;
 }
 

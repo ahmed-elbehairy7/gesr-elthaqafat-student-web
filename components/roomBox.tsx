@@ -4,11 +4,11 @@ import { roomBoxLocaleType, subjectsLocaleType } from "@/locales/dashboard";
 
 const RoomBox = ({
 	teacher,
-	start,
+	createdAt,
 	end,
 	subject,
 	subjectsLocale,
-	open,
+	status,
 	click,
 	onClick,
 	locale,
@@ -21,9 +21,11 @@ const RoomBox = ({
 			onClick={onClick}
 		>
 			<div className="font-semibold text-sm">
-				<h2>{teacher}</h2>
 				<h2>
-					{locale.start}: {start}
+					{teacher.firstName} {teacher.lastName}
+				</h2>
+				<h2>
+					{locale.start}: {createdAt}
 				</h2>
 				{!open && (
 					<h2>
@@ -34,17 +36,17 @@ const RoomBox = ({
 					{locale.subject}: {subjectsLocale[subject]}
 				</h2>
 			</div>
-			<RoomStatus locale={locale.status} open={open} click={click} />
+			<RoomStatus locale={locale.status} status={status} click={click} />
 		</div>
 	);
 };
 
 export type RoomBoxProps = {
-	teacher: string;
-	start: string;
+	teacher: { _id: string; firstName: string; lastName: string };
+	createdAt: string;
 	end?: string;
 	subject: "ar" | "mw" | "quran" | "tajweed" | "communicationSkills";
-	open?: true;
+	status: 1 | 0;
 	click: boolean;
 	onClick: MouseEventHandler<HTMLDivElement>;
 	locale: roomBoxLocaleType;

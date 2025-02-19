@@ -8,27 +8,35 @@ import { useParams } from "next/navigation";
 import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
+import apiClient from "@/apiClient";
 
 const SignUpPage = () => {
 	const params = useParams();
 	const locale = signupLocale[params.locale as localeType];
-	const [formData, setFormData] = useState({
-		firstName: "",
-		lastName: "",
-		email: "",
-		password: "",
-		confirmPassword: "",
-	});
-	const [errors, setErrors] = useState({
-		firstName: null,
-		lastName: null,
-		email: null,
-		password: null,
-		confirmPassword: null,
-	});
+	const [formData, setFormData] = useState({});
+	const [errors, setErrors] = useState({});
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
+	const _submit = async () => {
+		console.log(formData);
+		const response = await await apiClient.fetch(`/user/signup`, {
+			method: "post",
+			headers: {
+				"Content-Type": "application/json",
+				"Access-Control-Allow-Origin": "*",
+			},
+			body: JSON.stringify({ ...formData, type: "student" }),
+		});
+		console.log(response);
+
+		if (response.errors) {
+			setErrors(response.errors);
+			return;
+		}
+		localStorage.setItem("refreshToken", response.refreshToken);
 	};
 
 	return (
@@ -88,7 +96,7 @@ const SignUpPage = () => {
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
-						onclick: () => alert("signing up..."), //backend todo sign user up and get the required data from him
+						onclick: _submit, //backend todo sign user up and get the required data from him
 					},
 					otherWay: {
 						href: "/login",

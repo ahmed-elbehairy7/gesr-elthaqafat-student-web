@@ -8,8 +8,14 @@ export class ApiClient {
 		this.host = host;
 	}
 
+	async fetch(route: string, init?: RequestInit) {
+		return await (
+			await fetch(`${this.host}/${this.ver}${route}`, init)
+		).json();
+	}
+
 	async getToken({ tokenType }: { tokenType: "refresh" | "access" }) {
-		const response = await fetch(`${this.host}/tokens/${tokenType}`, {
+		const response = await this.fetch(`/tokens/${tokenType}`, {
 			method: "POST",
 			body: JSON.stringify({
 				refreshToken: localStorage.getItem("refreshToken") as string,
@@ -37,6 +43,8 @@ export interface ApiClientProps {
 }
 
 const apiClient = new ApiClient({
-	host: process.env.API as string,
+	host: process.env.NEXT_PUBLIC_API as string,
 	ver: "v0",
 });
+
+export default apiClient;

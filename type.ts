@@ -3,6 +3,7 @@ declare namespace NodeJS {
 		HOST: string;
 		NEXT_PUBLIC_HOST: string;
 		API: string;
+		NEXT_PUBLIC_API: string;
 		SECRET: string;
 	}
 }

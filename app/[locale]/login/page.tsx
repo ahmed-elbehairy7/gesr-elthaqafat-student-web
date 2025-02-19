@@ -8,7 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import loginLocale from "@/locales/login";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
-import apiClient from "@/apiClient";
+import apiClient from "@/utils/apiClient";
 
 const LoginPage = () => {
 	const params = useParams();
@@ -24,6 +24,7 @@ const LoginPage = () => {
 	});
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setErrors({ email: null, password: null });
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	return (
@@ -39,6 +40,7 @@ const LoginPage = () => {
 								type: "email",
 								onChange,
 								id: "email",
+								value: formData.email,
 								error: errors.email,
 							} as InputFieldProps,
 						},
@@ -48,6 +50,7 @@ const LoginPage = () => {
 							props: {
 								placeholder: locale.password,
 								onChange,
+								value: formData.password,
 								error: errors.password,
 							} as PasswordFieldProps,
 						},

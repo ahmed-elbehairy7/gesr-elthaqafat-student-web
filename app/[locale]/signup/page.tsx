@@ -8,7 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
-import apiClient from "@/apiClient";
+import apiClient from "@/utils/apiClient";
 
 const SignUpPage = () => {
 	const params = useParams();
@@ -30,6 +30,14 @@ const SignUpPage = () => {
 	});
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setErrors({
+			firstName: null,
+			lastName: null,
+			email: null,
+			password: null,
+			"confirm-password": null,
+		});
+
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 

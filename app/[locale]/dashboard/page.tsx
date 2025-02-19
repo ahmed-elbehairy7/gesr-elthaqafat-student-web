@@ -1,6 +1,6 @@
 "use client";
 
-import apiClient from "@/apiClient";
+import apiClient from "@/utils/apiClient";
 import CodesContainer from "@/components/codesContainer";
 import NotifyBar from "@/components/notifyBar";
 import RoomsContainer from "@/components/roomsContainer";

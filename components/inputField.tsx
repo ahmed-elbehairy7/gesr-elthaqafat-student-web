@@ -12,6 +12,7 @@ const InputPart = ({ required = true, ...props }: InputFieldProps) => {
 						name={props.id}
 						required={required}
 						defaultValue={""}
+						value={props.value}
 						onChange={props.onChange}
 					>
 						<option value={""} disabled>
@@ -69,6 +70,7 @@ export type InputFieldProps = {
 	autoComplete?: string;
 	minLength?: number;
 	maxlength?: number;
+	value?: string;
 	label?: string;
 	onChange: ChangeEventHandler<
 		HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement

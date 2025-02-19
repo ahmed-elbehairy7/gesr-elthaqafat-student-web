@@ -22,6 +22,8 @@ const PasswordField = (props: PasswordFieldProps) => {
 					onChange: props.onChange,
 					autoComplete,
 					minLength: 8,
+					value: props.value,
+					error: props.error,
 				}}
 			/>
 			<Link
@@ -46,6 +48,7 @@ export type PasswordFieldProps = {
 	confirm?: true;
 	signup?: true;
 	placeholder: string;
+	value?: string;
 	onChange: ChangeEventHandler<
 		HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
 	>;

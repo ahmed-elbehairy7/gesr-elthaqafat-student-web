@@ -1,5 +1,6 @@
 import { Dispatch } from "react";
 import { decodeJwt } from "jose";
+import getCookie from "./getCookie";
 
 export class ApiClient {
 	ver: string;

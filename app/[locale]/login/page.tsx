@@ -1,7 +1,7 @@
 "use client";
 
 import { InputFieldProps } from "@/components/inputField";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PasswordFieldProps } from "@/components/passwordField";
 import Form from "@/components/form";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -9,6 +9,7 @@ import loginLocale from "@/locales/login";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
 import Auth from "@/utils/forms";
+import Tokens from "@/utils/tokens";
 
 const LoginPage = () => {
 	const params = useParams();
@@ -30,6 +31,11 @@ const LoginPage = () => {
 		setErrors({ email: null, password: null });
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+	useEffect(() => {
+		(async () => {
+			if (await Tokens.getAccessToken()) router.push(redirectUrl);
+		})();
+	}, []);
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center pb-10 space-y-10">
 			<Form

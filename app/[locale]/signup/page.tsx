@@ -1,7 +1,7 @@
 "use client";
 
 import Form from "@/components/form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { InputFieldProps } from "@/components/inputField";
 import { PasswordFieldProps } from "@/components/passwordField";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -9,6 +9,7 @@ import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
 import Forms from "@/utils/forms";
+import Tokens from "@/utils/tokens";
 
 const SignUpPage = () => {
 	const params = useParams();
@@ -43,6 +44,12 @@ const SignUpPage = () => {
 
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
+
+	useEffect(() => {
+		(async () => {
+			if (await Tokens.getAccessToken()) router.push(redirectUrl);
+		})();
+	}, []);
 
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center pb-10 space-y-10">

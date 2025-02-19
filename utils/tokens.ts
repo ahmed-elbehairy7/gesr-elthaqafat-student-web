@@ -27,6 +27,7 @@ export default class Tokens {
 		const response = await this._getToken({ tokenType: "refresh" });
 		localStorage.setItem("refreshToken", response.refreshToken);
 		document.cookie = "generatedARefreshToken=true";
+		return response.refreshToken !== undefined;
 	};
 
 	// get accessToken function
@@ -36,15 +37,18 @@ export default class Tokens {
 		try {
 			decoded = decodeJwt(response.accessToken);
 		} catch (error) {
-			console.log(error);
+			return false;
 		}
 
 		document.cookie = `accessToken=${
 			response.accessToken
-		}; expires=${new Date((decoded as any).exp * 1000).toUTCString()}`;
+		}; expires=${new Date(
+			(decoded as any).exp * 1000
+		).toUTCString()}; path=/`;
 
 		document.cookie = `no-refresh=true; expires=${new Date(
 			(decoded as any).rat * 1000
-		).toUTCString()}`;
+		).toUTCString()}; path=/`;
+		return true;
 	};
 }

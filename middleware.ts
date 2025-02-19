@@ -23,25 +23,13 @@ export async function middleware(request: NextRequest) {
 		verified = true;
 	} catch {}
 
-	console.log(verified, pathname);
-	let response;
 	if (protectedRoutes.includes(pathname) && !verified)
-		response = NextResponse.redirect(
+		return NextResponse.redirect(
 			new URL(`/signup?redirectUrl=${request.url}`, request.url)
 		);
 
-	if (guestsOnlyRoutes.includes(pathname) && verified)
-		response = NextResponse.redirect(new URL("/dashboard", request.url));
-
-	if (pathname === "")
-		response = NextResponse.redirect(new URL("/dashboard", request.url));
-
-	if (response) {
-		request.cookies.getAll().forEach(({ name, value }) => {
-			response.cookies.set(name, value, { path: "/" });
-		});
-		return response;
-	}
+	if ((guestsOnlyRoutes.includes(pathname) && verified) || pathname === "")
+		return NextResponse.redirect(new URL("/dashboard", request.url));
 
 	return i18nRouter(request, i18nConfig);
 }

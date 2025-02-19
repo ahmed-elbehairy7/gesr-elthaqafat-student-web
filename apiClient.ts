@@ -1,4 +1,5 @@
-import { decode } from "jsonwebtoken";
+import { Dispatch } from "react";
+import { decodeJwt } from "jose";
 
 export class ApiClient {
 	ver: string;
@@ -8,38 +9,103 @@ export class ApiClient {
 		this.host = host;
 	}
 
-	async fetch(route: string, init?: RequestInit) {
+	private _fetch = async (route: string, init?: ApiClientRequestInit) => {
 		return await (
-			await fetch(`${this.host}/${this.ver}${route}`, init)
+			await fetch(`${this.host}/${this.ver}${route}`, {
+				...init,
+				headers: {
+					"Content-Type": "application/json",
+					...init?.headers,
+				},
+				body: JSON.stringify(init?.body),
+			})
 		).json();
-	}
+	};
 
-	async getToken({ tokenType }: { tokenType: "refresh" | "access" }) {
-		const response = await this.fetch(`/tokens/${tokenType}`, {
-			method: "POST",
-			body: JSON.stringify({
+	// get token function
+	private _getToken = async ({
+		tokenType,
+	}: {
+		tokenType: "refresh" | "access";
+	}) => {
+		const response = await this.post(`/tokens/${tokenType}`, {
+			body: {
 				refreshToken: localStorage.getItem("refreshToken") as string,
-			}),
+			},
 		});
 
-		return await response.json();
-	}
+		return response;
+	};
 
-	async getRefreshToken() {
-		const response = await this.getToken({ tokenType: "refresh" });
-		console.log(response);
-		document.cookie = response.refreshToken;
+	// get refreshToken function
+	getRefreshToken = async () => {
+		const response = await this._getToken({ tokenType: "refresh" });
+		localStorage.setItem("refreshToken", response.refreshToken);
+	};
+
+	// get accessToken function
+	getAccessToken = async () => {
+		const response = await this._getToken({ tokenType: "access" });
+		let decoded;
+		try {
+			decoded = decodeJwt(response.accessToken);
+		} catch (error) {
+			console.log(error);
+		}
+
+		document.cookie = `accessToken=${
+			response.accessToken
+		}; expires=${new Date((decoded as any).exp * 1000).toUTCString()}`;
+	};
+
+	// ---------- signup handler
+	async signup({ formData, setErrors }: formProps) {
+		const response = await await apiClient.post(`/user/signup`, {
+			body: { ...formData, type: "student" },
+		});
+
+		if (response.errors) {
+			setErrors(response.errors);
+			return false;
+		}
+		localStorage.setItem("refreshToken", response.refreshToken);
+		await this.getAccessToken();
+		return true;
 	}
-	async getAccessToken(document: Document) {
-		const response = await this.getToken({ tokenType: "access" });
-		console.log(response);
-		document.cookie = response.accessToken;
-	}
+	// -------------------- methods functions
+
+	// post
+	post = async (route: string, init?: ApiClientRequestInit) => {
+		return await this._fetch(route, { ...init, method: "post" });
+	};
+
+	// get
+	get = async (route: string, init?: ApiClientRequestInit) => {
+		return await this._fetch(route, { ...init, method: "get" });
+	};
+
+	// put
+	put = async (route: string, init?: ApiClientRequestInit) => {
+		return await this._fetch(route, { ...init, method: "put" });
+	};
+
+	// delete
+	delete = async (route: string, init?: ApiClientRequestInit) => {
+		return await this._fetch(route, { ...init, method: "delete" });
+	};
 }
 
+export interface formProps {
+	formData: { [key: string]: string };
+	setErrors: Dispatch<React.SetStateAction<any>>;
+}
 export interface ApiClientProps {
 	ver: string;
 	host: string;
+}
+
+export interface ApiClientRequestInit extends RequestInit {
+	body?: any;
 }
 
 const apiClient = new ApiClient({

@@ -49,7 +49,7 @@ export type PasswordFieldProps = {
 	onChange: ChangeEventHandler<
 		HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
 	>;
-	error?: validationError;
+	error?: validationError | null;
 };
 
 export default PasswordField;

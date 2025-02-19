@@ -1,5 +1,6 @@
 "use client";
 
+import apiClient from "@/apiClient";
 import CodesContainer from "@/components/codesContainer";
 import NotifyBar from "@/components/notifyBar";
 import RoomsContainer from "@/components/roomsContainer";
@@ -23,6 +24,7 @@ const DashboardPage = () => {
 	}, []);
 	return (
 		<main className="flex flex-col items-center">
+			<button onClick={apiClient.getAccessToken}>click me</button>
 			{disableAll && (
 				<NotifyBar
 					{...{

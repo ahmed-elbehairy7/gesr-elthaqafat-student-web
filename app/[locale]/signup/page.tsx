@@ -4,7 +4,7 @@ import Form from "@/components/form";
 import React, { useState } from "react";
 import { InputFieldProps } from "@/components/inputField";
 import { PasswordFieldProps } from "@/components/passwordField";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
@@ -13,30 +13,24 @@ import apiClient from "@/apiClient";
 const SignUpPage = () => {
 	const params = useParams();
 	const locale = signupLocale[params.locale as localeType];
-	const [formData, setFormData] = useState({});
-	const [errors, setErrors] = useState({});
+	const router = useRouter();
+	const [formData, setFormData] = useState({
+		email: "",
+		password: "",
+		"confirm-password": "",
+		firstName: "",
+		lastName: "",
+	});
+	const [errors, setErrors] = useState({
+		firstName: null,
+		lastName: null,
+		email: null,
+		password: null,
+		"confirm-password": null,
+	});
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
-
-	const _submit = async () => {
-		console.log(formData);
-		const response = await await apiClient.fetch(`/user/signup`, {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*",
-			},
-			body: JSON.stringify({ ...formData, type: "student" }),
-		});
-		console.log(response);
-
-		if (response.errors) {
-			setErrors(response.errors);
-			return;
-		}
-		localStorage.setItem("refreshToken", response.refreshToken);
 	};
 
 	return (
@@ -52,6 +46,7 @@ const SignUpPage = () => {
 								placeholder: locale.firstName,
 								type: "text",
 								id: "firstName",
+								error: errors.firstName,
 							} as InputFieldProps,
 						},
 						{
@@ -61,6 +56,7 @@ const SignUpPage = () => {
 								placeholder: locale.lastName,
 								type: "text",
 								id: "lastName",
+								error: errors.lastName,
 							} as InputFieldProps,
 						},
 
@@ -71,6 +67,7 @@ const SignUpPage = () => {
 								placeholder: locale.email,
 								type: "email",
 								id: "email",
+								error: errors.email,
 							} as InputFieldProps,
 						},
 						{
@@ -79,6 +76,7 @@ const SignUpPage = () => {
 								onChange,
 								placeholder: locale.password,
 								signup: true,
+								error: errors.password,
 							} as PasswordFieldProps,
 						},
 						{
@@ -88,6 +86,7 @@ const SignUpPage = () => {
 								placeholder: locale.confirmPassword,
 								confirm: true,
 								signup: true,
+								error: errors["confirm-password"],
 							} as PasswordFieldProps,
 						},
 					],
@@ -96,7 +95,10 @@ const SignUpPage = () => {
 						backgroundOrBorderColor: "bg-primary-color",
 						fill: true,
 						textColor: "text-bright-one",
-						onclick: _submit, //backend todo sign user up and get the required data from him
+						onclick: async () => {
+							(await apiClient.signup({ setErrors, formData })) &&
+								router.push("/");
+						},
 					},
 					otherWay: {
 						href: "/login",

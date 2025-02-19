@@ -1,6 +1,6 @@
 import React, { ChangeEventHandler } from "react";
 
-const InputField = ({ required = true, ...props }: InputFieldProps) => {
+const InputPart = ({ required = true, ...props }: InputFieldProps) => {
 	const globalClassName = "w-full px-3 py-3 rounded-inputField";
 	return (
 		<>
@@ -45,6 +45,21 @@ const InputField = ({ required = true, ...props }: InputFieldProps) => {
 	);
 };
 
+const ErrorPart = (error: validationError) => {
+	return (
+		<p className="w-full flex text-start text-errRed">{error?.message}</p>
+	);
+};
+
+const InputField = (props: InputFieldProps) => {
+	return (
+		<div className="m-0 w-full">
+			<InputPart {...props} />
+			{props.error && <ErrorPart {...props.error} />}
+		</div>
+	);
+};
+
 export type InputFieldProps = {
 	placeholder: string;
 	id: string;
@@ -58,7 +73,7 @@ export type InputFieldProps = {
 	onChange: ChangeEventHandler<
 		HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
 	>;
-	error?: validationError;
+	error?: validationError | null;
 };
 
 export type validationError = {
@@ -66,6 +81,6 @@ export type validationError = {
 	message: string;
 	kind: "required" | "unique" | "minlength" | "maxlength" | "enum" | "regexp";
 	path: string;
-};
+} | null;
 
 export default InputField;

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import i18nConfig from "./i18nConfig";
 import { i18nRouter } from "next-i18n-router";
-import { verify } from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
 const protectedRoutes: string[] = ["dashboard", "profile"];
 const publicRoutes: string[] = [];
@@ -17,9 +17,15 @@ export function middleware(request: NextRequest) {
 	}
 	let verified = false;
 	try {
-		verify(request.cookies.get("accessToken") as any, process.env.SECRET);
+		jwtVerify(
+			request.cookies.get("accessToken")?.value as string,
+			new TextEncoder().encode(process.env.SECRET)
+		);
 		verified = true;
-	} catch {}
+		console.log(verified);
+	} catch (error) {
+		console.log(error);
+	}
 
 	if (protectedRoutes.includes(pathname)) {
 		if (verified) return i18nRouter(request, i18nConfig);

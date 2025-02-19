@@ -6,15 +6,32 @@ import MenuBar from "./menuBar";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { headerLocale, localeType } from "@/locales/common";
+import { decodeJwt } from "jose";
+import getCookie from "@/utils/getCookie";
+import apiClient from "@/utils/apiClient";
 
 const Header = () => {
-	const coins = 10; //backend todo get user coins
+	const [coins, setCoins] = useState(0);
 	const [name, setName] = useState<string>("");
 	const params = useParams();
 	const locale = headerLocale[params.locale as localeType];
 	useEffect(() => {
-		localStorage.setItem("coins", coins.toString());
-		setName("Ahmed Elbehairy"); //backend todo fetch real name
+		(async () => {
+			const date = new Date(new Date(Date.now()).toDateString());
+			const student = await apiClient.get("/user/student");
+			if (
+				(student.lastDailyUsed || new Date(0)).toString() ===
+				date.toString()
+			) {
+				setCoins(0);
+			} else {
+				setCoins(10);
+			}
+			document.cookie = `lastDailyUsed=${student.lastDailyUsed};`;
+
+			const { usr }: any = decodeJwt(getCookie("accessToken"));
+			setName(`${usr.fn} ${usr.ln}`);
+		})();
 	}, []);
 	return (
 		<header className="w-full h-32 flex flex-col">

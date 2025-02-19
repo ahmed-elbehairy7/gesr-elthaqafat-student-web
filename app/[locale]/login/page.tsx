@@ -15,20 +15,14 @@ const LoginPage = () => {
 	const params = useParams();
 	const locale = loginLocale[params.locale as localeType];
 	const router = useRouter();
-	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
-	});
-	const [errors, setErrors] = useState({
-		email: null,
-		password: null,
-	});
+	const [formData, setFormData] = useState<any>({});
+	const [errors, setErrors] = useState<any>({});
 
 	const searchParams = useSearchParams();
 	const redirectUrl = searchParams.get("redirectUrl") || "/";
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setErrors({ email: null, password: null });
+		setErrors({ ...errors, [e.target.name]: null });
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 	useEffect(() => {

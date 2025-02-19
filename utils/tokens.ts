@@ -55,11 +55,16 @@ export default class Tokens {
 
 	// refresh accessToken
 	static refreshAccessToken = async () => {
-		if (!getCookie("no-refresh")) await this.getAccessToken();
+		if (!getCookie("no-refresh") || !getCookie("accessToken"))
+			await this.getAccessToken();
 	};
 
 	// refresh refreshToken
 	static refreshRefreshToken = async () => {
+		if (!localStorage.getItem("refreshToken"))
+			document.cookie = `accessToken=; expires=${new Date(
+				0
+			).toUTCString()}; path=/`;
 		if (!getCookie("s-init")) await this.getRefreshToken();
 	};
 }

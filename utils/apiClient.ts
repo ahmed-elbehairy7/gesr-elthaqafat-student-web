@@ -19,10 +19,8 @@ export class ApiClient {
 			...init?.headers,
 		});
 
-		// if this is a new session generate a new refreshToken
-		if (protect && !getCookie("generatedARefreshToken")) {
-			await Tokens.getRefreshToken();
-			document.cookie = "generatedARefreshToken=true";
+		// if this is a protected route, add token to headers
+		if (protect) {
 			headers.append(
 				"Authorization",
 				`Bearer ${getCookie("accessToken")}`
@@ -35,11 +33,6 @@ export class ApiClient {
 				body: JSON.stringify(init?.body),
 			})
 		).json();
-
-		// if the accessToken needs to refresh, generate a new one
-		if (protect && !getCookie("no-refresh")) {
-			await Tokens.getAccessToken();
-		}
 
 		return response;
 	};

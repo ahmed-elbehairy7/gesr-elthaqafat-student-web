@@ -9,7 +9,7 @@ const publicRoutes: string[] = ["signup", "login"];
 const bothRoutes: string[] = [];
 
 // This function can be marked `async` if using `await` inside
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
 	let { pathname } = request.nextUrl;
 	pathname = pathname.replace(RegExp("/(ar|en|mw)"), "").replace("/", "");
 	if (bothRoutes.includes(pathname)) {
@@ -17,14 +17,12 @@ export function middleware(request: NextRequest) {
 	}
 	let verified = false;
 	try {
-		jwtVerify(
+		await jwtVerify(
 			request.cookies.get("accessToken")?.value as any,
 			new TextEncoder().encode(process.env.SECRET)
 		);
 		verified = true;
-	} catch (error) {
-		console.log(error);
-	}
+	} catch {}
 
 	if (protectedRoutes.includes(pathname)) {
 		if (verified) return i18nRouter(request, i18nConfig);

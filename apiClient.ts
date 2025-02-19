@@ -10,16 +10,27 @@ export class ApiClient {
 	}
 
 	private _fetch = async (route: string, init?: ApiClientRequestInit) => {
-		return await (
+		if (!getCookie("generatedARefreshToken")) {
+			await this.getRefreshToken();
+			document.cookie = "generatedARefreshToken=true";
+		}
+		const response = await (
 			await fetch(`${this.host}/${this.ver}${route}`, {
 				...init,
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${getCookie("accessToken")}`,
 					...init?.headers,
 				},
 				body: JSON.stringify(init?.body),
 			})
 		).json();
+
+		if (!getCookie("no-refresh")) {
+			await this.getAccessToken();
+		}
+
+		return response;
 	};
 
 	// get token function
@@ -56,6 +67,10 @@ export class ApiClient {
 		document.cookie = `accessToken=${
 			response.accessToken
 		}; expires=${new Date((decoded as any).exp * 1000).toUTCString()}`;
+
+		document.cookie = `no-refresh=true; expires=${new Date(
+			(decoded as any).rat * 1000
+		).toUTCString()}`;
 	};
 
 	// ---------- signup handler

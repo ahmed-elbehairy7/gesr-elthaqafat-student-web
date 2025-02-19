@@ -18,16 +18,18 @@ const Header = () => {
 	useEffect(() => {
 		(async () => {
 			const date = new Date(new Date(Date.now()).toDateString());
-			const student = await apiClient.get("/user/student");
-			if (
-				(student.lastDailyUsed || new Date(0)).toString() ===
-				date.toString()
-			) {
+
+			const lastDailyUsed =
+				getCookie("lastDailyUsed") ||
+				(await apiClient.get("/user/student")).lastDailyUsed ||
+				new Date(0).toString();
+
+			if (lastDailyUsed === date.toString()) {
 				setCoins(0);
 			} else {
 				setCoins(10);
 			}
-			document.cookie = `lastDailyUsed=${student.lastDailyUsed};`;
+			document.cookie = `lastDailyUsed=${lastDailyUsed};`;
 
 			const { usr }: any = decodeJwt(getCookie("accessToken"));
 			setName(`${usr.fn} ${usr.ln}`);

@@ -8,6 +8,8 @@ import { localeType } from "@/locales/common";
 import dashboardLocale from "@/locales/dashboard";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import getCookie from "@/utils/getCookie";
+import { decodeJwt } from "jose";
 
 const DashboardPage = () => {
 	const [eligible, setEligible] = useState<boolean>(false);
@@ -17,10 +19,8 @@ const DashboardPage = () => {
 
 	const locale = dashboardLocale[params.locale as localeType];
 	useEffect(() => {
-		//backend todo the logic to undisable all
-		if (localStorage.getItem("dataComplete") == "done") {
-			setDisableAll(false);
-		}
+		const accessToken = decodeJwt(getCookie("accessToken"));
+		setDisableAll(!(accessToken as any).usr.a);
 	}, []);
 	return (
 		<main className="flex flex-col items-center">

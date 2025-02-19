@@ -5,6 +5,8 @@ import { localeType } from "@/locales/common";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { useEffect } from "react";
+import Tokens from "@/utils/tokens";
+import avoidKeyboard from "@/utils/avoidKeyboard";
 
 export default function RootLayout({
 	children,
@@ -20,27 +22,11 @@ export default function RootLayout({
 	);
 
 	useEffect(() => {
-		// listen to keyboard focus
-		document.body.addEventListener(
-			"focus",
-			(event) => {
-				const { target } = event;
-				switch ((target as unknown as { tagName: string }).tagName) {
-					case "INPUT":
-					case "TEXTAREA":
-					case "SELECT":
-						document.body.classList.add("keyboard");
-				}
-			},
-			true
-		);
-		document.body.addEventListener(
-			"blur",
-			() => {
-				document.body.classList.remove("keyboard");
-			},
-			true
-		);
+		avoidKeyboard();
+		(async () => {
+			await Tokens.refreshRefreshToken();
+			await Tokens.refreshAccessToken();
+		})();
 	}, []);
 
 	return (

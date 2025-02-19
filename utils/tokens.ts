@@ -1,5 +1,6 @@
 import { decodeJwt } from "jose";
 import apiClient from "./apiClient";
+import getCookie from "./getCookie";
 
 export default class Tokens {
 	private static _getToken = async ({
@@ -26,7 +27,7 @@ export default class Tokens {
 	static getRefreshToken = async () => {
 		const response = await this._getToken({ tokenType: "refresh" });
 		localStorage.setItem("refreshToken", response.refreshToken);
-		document.cookie = "generatedARefreshToken=true";
+		document.cookie = "s-init=true; path=/";
 		return response.refreshToken !== undefined;
 	};
 
@@ -50,5 +51,15 @@ export default class Tokens {
 			(decoded as any).rat * 1000
 		).toUTCString()}; path=/`;
 		return true;
+	};
+
+	// refresh accessToken
+	static refreshAccessToken = async () => {
+		if (!getCookie("no-refresh")) await this.getAccessToken();
+	};
+
+	// refresh refreshToken
+	static refreshRefreshToken = async () => {
+		if (!getCookie("s-init")) await this.getRefreshToken();
 	};
 }

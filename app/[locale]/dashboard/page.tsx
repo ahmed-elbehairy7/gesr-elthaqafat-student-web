@@ -24,7 +24,6 @@ const DashboardPage = () => {
 	}, []);
 	return (
 		<main className="flex flex-col items-center">
-			<button onClick={apiClient.getAccessToken}>click me</button>
 			{disableAll && (
 				<NotifyBar
 					{...{

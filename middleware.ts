@@ -5,7 +5,7 @@ import { i18nRouter } from "next-i18n-router";
 import { jwtVerify } from "jose";
 
 const protectedRoutes: string[] = ["dashboard", "profile"];
-const publicRoutes: string[] = [];
+const publicRoutes: string[] = ["signup", "login"];
 const bothRoutes: string[] = [];
 
 // This function can be marked `async` if using `await` inside
@@ -18,11 +18,10 @@ export function middleware(request: NextRequest) {
 	let verified = false;
 	try {
 		jwtVerify(
-			request.cookies.get("accessToken")?.value as string,
+			request.cookies.get("accessToken")?.value as any,
 			new TextEncoder().encode(process.env.SECRET)
 		);
 		verified = true;
-		console.log(verified);
 	} catch (error) {
 		console.log(error);
 	}

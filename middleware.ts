@@ -1,13 +1,37 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import i18nConfig from "./i18nConfig";
 import { i18nRouter } from "next-i18n-router";
+import { verify } from "jsonwebtoken";
+
+const protectedRoutes: string[] = ["dashboard", "profile"];
+const publicRoutes: string[] = [];
+const bothRoutes: string[] = [];
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
 	let { pathname } = request.nextUrl;
-	pathname = pathname.replace(RegExp("/(ar|en|mw)"), "");
-	if (["", "/"].includes(pathname)) {
+	pathname = pathname.replace(RegExp("/(ar|en|mw)"), "").replace("/", "");
+	if (bothRoutes.includes(pathname)) {
+		return i18nRouter(request, i18nConfig);
+	}
+	let verified = false;
+	try {
+		verify(request.cookies.get("accessToken") as any, process.env.SECRET);
+		verified = true;
+	} catch {}
+
+	if (protectedRoutes.includes(pathname)) {
+		if (verified) return i18nRouter(request, i18nConfig);
+		else return NextResponse.redirect(new URL("/signup", request.url));
+	}
+
+	if (publicRoutes.includes(pathname)) {
+		if (!verified) return i18nRouter(request, i18nConfig);
+		else return NextResponse.redirect(new URL("/", request.url));
+	}
+
+	if (pathname === "") {
 		return NextResponse.redirect(new URL("/dashboard", request.url));
 	}
 

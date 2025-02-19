@@ -5,37 +5,42 @@ import { i18nRouter } from "next-i18n-router";
 import { jwtVerify } from "jose";
 
 const protectedRoutes: string[] = ["dashboard", "profile"];
-const publicRoutes: string[] = ["signup", "login"];
-const bothRoutes: string[] = [];
+const guestsOnlyRoutes: string[] = ["signup", "login"];
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
 	let { pathname } = request.nextUrl;
 	pathname = pathname.replace(RegExp("/(ar|en|mw)"), "").replace("/", "");
-	if (bothRoutes.includes(pathname)) {
-		return i18nRouter(request, i18nConfig);
-	}
+
 	let verified = false;
+	const accessToken = request.cookies.get("accessToken")?.value as any;
+
 	try {
 		await jwtVerify(
-			request.cookies.get("accessToken")?.value as any,
+			accessToken,
 			new TextEncoder().encode(process.env.SECRET)
 		);
 		verified = true;
 	} catch {}
 
-	if (protectedRoutes.includes(pathname)) {
-		if (verified) return i18nRouter(request, i18nConfig);
-		else return NextResponse.redirect(new URL("/signup", request.url));
-	}
+	console.log(verified, pathname);
+	let response;
+	if (protectedRoutes.includes(pathname) && !verified)
+		response = NextResponse.redirect(
+			new URL(`/signup?redirectUrl=${request.url}`, request.url)
+		);
 
-	if (publicRoutes.includes(pathname)) {
-		if (!verified) return i18nRouter(request, i18nConfig);
-		else return NextResponse.redirect(new URL("/", request.url));
-	}
+	if (guestsOnlyRoutes.includes(pathname) && verified)
+		response = NextResponse.redirect(new URL("/dashboard", request.url));
 
-	if (pathname === "") {
-		return NextResponse.redirect(new URL("/dashboard", request.url));
+	if (pathname === "")
+		response = NextResponse.redirect(new URL("/dashboard", request.url));
+
+	if (response) {
+		request.cookies.getAll().forEach(({ name, value }) => {
+			response.cookies.set(name, value, { path: "/" });
+		});
+		return response;
 	}
 
 	return i18nRouter(request, i18nConfig);

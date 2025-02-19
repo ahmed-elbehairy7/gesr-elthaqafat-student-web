@@ -4,11 +4,11 @@ import Form from "@/components/form";
 import React, { useState } from "react";
 import { InputFieldProps } from "@/components/inputField";
 import { PasswordFieldProps } from "@/components/passwordField";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
-import apiClient from "@/utils/apiClient";
+import Forms from "@/utils/forms";
 
 const SignUpPage = () => {
 	const params = useParams();
@@ -28,6 +28,9 @@ const SignUpPage = () => {
 		password: null,
 		"confirm-password": null,
 	});
+
+	const searchParams = useSearchParams();
+	const redirectUrl = searchParams.get("redirectUrl") || "/";
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setErrors({
@@ -104,12 +107,12 @@ const SignUpPage = () => {
 						fill: true,
 						textColor: "text-bright-one",
 						onclick: async () => {
-							(await apiClient.signup({ setErrors, formData })) &&
-								router.push("/");
+							(await Forms.signup({ setErrors, formData })) &&
+								router.push(redirectUrl);
 						},
 					},
 					otherWay: {
-						href: "/login",
+						href: `/login?redirectUrl=${redirectUrl}`,
 						text: locale.login,
 					},
 				}}

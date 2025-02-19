@@ -4,11 +4,11 @@ import { InputFieldProps } from "@/components/inputField";
 import React, { useState } from "react";
 import { PasswordFieldProps } from "@/components/passwordField";
 import Form from "@/components/form";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import loginLocale from "@/locales/login";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
-import apiClient from "@/utils/apiClient";
+import Auth from "@/utils/forms";
 
 const LoginPage = () => {
 	const params = useParams();
@@ -22,6 +22,9 @@ const LoginPage = () => {
 		email: null,
 		password: null,
 	});
+
+	const searchParams = useSearchParams();
+	const redirectUrl = searchParams.get("redirectUrl") || "/";
 
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setErrors({ email: null, password: null });
@@ -61,11 +64,14 @@ const LoginPage = () => {
 						fill: true,
 						textColor: "text-bright-one",
 						onclick: async () => {
-							(await apiClient.login({ setErrors, formData })) &&
-								router.push("/");
+							(await Auth.login({ setErrors, formData })) &&
+								router.push(redirectUrl);
 						},
 					},
-					otherWay: { href: "/signup", text: locale.signup },
+					otherWay: {
+						href: `/signup?redirectUrl=${redirectUrl}`,
+						text: locale.signup,
+					},
 				}}
 			/>
 			<LanguageChanger dark={true} />

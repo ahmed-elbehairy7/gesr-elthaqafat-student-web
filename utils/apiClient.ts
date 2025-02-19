@@ -1,6 +1,5 @@
-import { Dispatch } from "react";
-import { decodeJwt } from "jose";
 import getCookie from "./getCookie";
+import Tokens from "./tokens";
 
 export class ApiClient {
 	ver: string;
@@ -22,7 +21,7 @@ export class ApiClient {
 
 		// if this is a new session generate a new refreshToken
 		if (protect && !getCookie("generatedARefreshToken")) {
-			await this.getRefreshToken();
+			await Tokens.getRefreshToken();
 			document.cookie = "generatedARefreshToken=true";
 			headers.append(
 				"Authorization",
@@ -39,82 +38,11 @@ export class ApiClient {
 
 		// if the accessToken needs to refresh, generate a new one
 		if (protect && !getCookie("no-refresh")) {
-			await this.getAccessToken();
+			await Tokens.getAccessToken();
 		}
 
 		return response;
 	};
-
-	// get token function
-	private _getToken = async ({
-		tokenType,
-	}: {
-		tokenType: "refresh" | "access";
-	}) => {
-		const response = await this.post(`/tokens/${tokenType}`, {
-			body: {
-				refreshToken: localStorage.getItem("refreshToken") as string,
-			},
-		});
-
-		return response;
-	};
-
-	// get refreshToken function
-	getRefreshToken = async () => {
-		const response = await this._getToken({ tokenType: "refresh" });
-		localStorage.setItem("refreshToken", response.refreshToken);
-	};
-
-	// get accessToken function
-	getAccessToken = async () => {
-		const response = await this._getToken({ tokenType: "access" });
-		let decoded;
-		try {
-			decoded = decodeJwt(response.accessToken);
-		} catch (error) {
-			console.log(error);
-		}
-
-		document.cookie = `accessToken=${
-			response.accessToken
-		}; expires=${new Date((decoded as any).exp * 1000).toUTCString()}`;
-
-		document.cookie = `no-refresh=true; expires=${new Date(
-			(decoded as any).rat * 1000
-		).toUTCString()}`;
-	};
-
-	private _auth = async (
-		route: "signup" | "login",
-		additionals: any,
-		{ formData, setErrors }: formProps
-	) => {
-		const response = await apiClient.post(
-			`/user/${route}`,
-			{
-				body: { ...formData, ...additionals },
-			},
-			false
-		);
-
-		if (response.errors) {
-			setErrors(response.errors);
-			return false;
-		}
-		localStorage.setItem("refreshToken", response.refreshToken);
-		await this.getAccessToken();
-		return true;
-	};
-	// ---------- signup handler
-	async signup(props: formProps) {
-		return await this._auth("signup", { type: "student" }, props);
-	}
-
-	// ---------- login handler
-	async login(props: formProps) {
-		return await this._auth("login", {}, props);
-	}
 
 	// -------------------- methods functions
 
@@ -155,10 +83,6 @@ export class ApiClient {
 	};
 }
 
-export interface formProps {
-	formData: { [key: string]: string };
-	setErrors: Dispatch<React.SetStateAction<any>>;
-}
 export interface ApiClientProps {
 	ver: string;
 	host: string;

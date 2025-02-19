@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 
 const InputField = ({ required = true, ...props }: InputFieldProps) => {
 	const globalClassName = "w-full px-3 py-3 rounded-inputField";
@@ -12,6 +12,7 @@ const InputField = ({ required = true, ...props }: InputFieldProps) => {
 						name={props.id}
 						required={required}
 						defaultValue={""}
+						onChange={props.onChange}
 					>
 						<option value={""} disabled>
 							{props.placeholder}
@@ -54,6 +55,17 @@ export type InputFieldProps = {
 	minLength?: number;
 	maxlength?: number;
 	label?: string;
+	onChange: ChangeEventHandler<
+		HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+	>;
+	error?: validationError;
+};
+
+export type validationError = {
+	name: string;
+	message: string;
+	kind: "required" | "unique" | "minlength" | "maxlength" | "enum" | "regexp";
+	path: string;
 };
 
 export default InputField;

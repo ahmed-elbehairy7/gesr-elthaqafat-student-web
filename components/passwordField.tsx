@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import InputField from "./inputField";
+import React, { ChangeEventHandler, useState } from "react";
+import InputField, { validationError } from "./inputField";
 import showImage from "@/assets/Show.png";
 import hideImage from "@/assets/hide.png";
 import Image from "next/image";
@@ -19,6 +19,7 @@ const PasswordField = (props: PasswordFieldProps) => {
 					name,
 					placeholder: props.placeholder,
 					type: show,
+					onChange: props.onChange,
 					autoComplete,
 					minLength: 8,
 				}}
@@ -45,6 +46,10 @@ export type PasswordFieldProps = {
 	confirm?: true;
 	signup?: true;
 	placeholder: string;
+	onChange: ChangeEventHandler<
+		HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement
+	>;
+	error?: validationError;
 };
 
 export default PasswordField;

@@ -1,7 +1,7 @@
 "use client";
 
 import Form from "@/components/form";
-import React from "react";
+import React, { useState } from "react";
 import { InputFieldProps } from "@/components/inputField";
 import { PasswordFieldProps } from "@/components/passwordField";
 import { useParams } from "next/navigation";
@@ -12,6 +12,25 @@ import LanguageChanger from "@/components/languageChanger";
 const SignUpPage = () => {
 	const params = useParams();
 	const locale = signupLocale[params.locale as localeType];
+	const [formData, setFormData] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		password: "",
+		confirmPassword: "",
+	});
+	const [errors, setErrors] = useState({
+		firstName: null,
+		lastName: null,
+		email: null,
+		password: null,
+		confirmPassword: null,
+	});
+
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
 	return (
 		<main className="w-full h-full flex flex-col items-center justify-center pb-10 space-y-10">
 			<Form
@@ -21,6 +40,7 @@ const SignUpPage = () => {
 						{
 							type: "input",
 							props: {
+								onChange,
 								placeholder: locale.firstName,
 								type: "text",
 								id: "firstName",
@@ -29,6 +49,7 @@ const SignUpPage = () => {
 						{
 							type: "input",
 							props: {
+								onChange,
 								placeholder: locale.lastName,
 								type: "text",
 								id: "lastName",
@@ -38,6 +59,7 @@ const SignUpPage = () => {
 						{
 							type: "input",
 							props: {
+								onChange,
 								placeholder: locale.email,
 								type: "email",
 								id: "email",
@@ -46,6 +68,7 @@ const SignUpPage = () => {
 						{
 							type: "password",
 							props: {
+								onChange,
 								placeholder: locale.password,
 								signup: true,
 							} as PasswordFieldProps,
@@ -53,6 +76,7 @@ const SignUpPage = () => {
 						{
 							type: "password",
 							props: {
+								onChange,
 								placeholder: locale.confirmPassword,
 								confirm: true,
 								signup: true,

@@ -23,9 +23,11 @@ const RoomDetails = ({
 	}, [copied]);
 	return (
 		<div className="font-bold flex flex-col justify-center space-y-2 max-w-full">
-			<h3 className="font-bold text-base">{teacher}</h3>
+			<h3 className="font-bold text-base">
+				{teacher.firstName} {teacher.lastName}
+			</h3>
 			<p className="text-sm">
-				{locale.start}: {createdAt}
+				{locale.start}: {new Date(createdAt).toLocaleString()}
 			</p>
 			<p className="text-sm">
 				{locale.subject}: {subjectsLocale[subject]}

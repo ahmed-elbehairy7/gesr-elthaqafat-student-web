@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Container from "./container";
 import RoomBox from "./roomBox";
-import RoomDetails, { roomDetailsData } from "./roomDetails";
+import RoomDetails from "./roomDetails";
 import Image from "next/image";
 import returnIcon from "@/assets/return.png";
 import { roomsContainerLocaleType } from "@/locales/dashboard";
@@ -12,15 +12,20 @@ const RoomsContainer = ({
 	eligible,
 	locale,
 }: RoomsContainerProps) => {
-	const [rooms, setRooms] = useState<roomDetailsData[]>([]);
+	const [rooms, setRooms] = useState<any[]>([]);
 	const [roomDetails, setRoomDetails] = useState<number>(0);
 	const [subject, setSubject] = useState("None");
 
 	const { subjects } = locale;
 
 	useEffect(() => {
+		setSubject(localStorage.getItem("preferredSubject") || "None");
+	}, []);
+
+	useEffect(() => {
 		(async () => {
 			if (subject !== "None") {
+				localStorage.setItem("preferredSubject", subject);
 				const rooms = await apiClient.get(
 					`/rooms/available/${subject}`
 				);
@@ -40,7 +45,7 @@ const RoomsContainer = ({
 				) : (
 					<select
 						className="rounded-lg text-xs md:text-base w-2/5 md:w-fit"
-						defaultValue={"None"}
+						value={subject}
 						onChange={(e) => setSubject(e.target.value)}
 					>
 						<option value={"None"} disabled>
@@ -85,9 +90,9 @@ const RoomsContainer = ({
 				</>
 			) : (
 				<RoomDetails
-					{...(rooms.find(
-						(v, i) => i == roomDetails - 1
-					) as roomDetailsData)}
+					locale={locale.roomBox}
+					subjectsLocale={subjects}
+					{...rooms.find((v, i) => i == roomDetails - 1)}
 				/>
 			)}
 		</Container>

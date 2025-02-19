@@ -25,7 +25,7 @@ const RoomBox = ({
 					{teacher.firstName} {teacher.lastName}
 				</h2>
 				<h2>
-					{locale.start}: {createdAt}
+					{locale.start}: {new Date(createdAt).toLocaleString()}
 				</h2>
 				{!open && (
 					<h2>

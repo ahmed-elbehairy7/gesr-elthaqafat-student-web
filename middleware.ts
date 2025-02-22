@@ -4,13 +4,13 @@ import { i18nRouter } from "next-i18n-router";
 import AuthRouter from "./utils/authRouter";
 
 const authRouter = new AuthRouter({
-	protectedRoutes: ["dashboard", "profile"],
+	protectedRoutes: ["profile", "dashboard"],
 	guestsOnlyRoutes: ["signup", "login"],
 });
 
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-	const response = authRouter.router(request);
+	const response = await authRouter.router(request);
 	if (response) return response;
 	return i18nRouter(request, i18nConfig);
 }

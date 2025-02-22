@@ -17,9 +17,14 @@ const Header = () => {
 	const locale = headerLocale[params.locale as localeType];
 	useEffect(() => {
 		(async () => {
-			const { usr }: any = decodeJwt(getCookie("accessToken"));
-			setCoins(await getCoins.default());
-			setName(`${usr.fn} ${usr.ln}`);
+			try {
+				const { usr }: any = decodeJwt(getCookie("accessToken"));
+				setCoins(await getCoins.default());
+				setName(`${usr.fn} ${usr.ln}`);
+			} catch (error) {
+				setCoins(0);
+				setName("");
+			}
 		})();
 	}, []);
 	return (

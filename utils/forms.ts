@@ -34,33 +34,6 @@ export default class Forms {
 		}
 		return response;
 	};
-
-	private static _auth = async (
-		route: "signup" | "login",
-		additionals: any,
-		{ formData, setErrors }: formProps
-	) => {
-		const res = await this.submit({
-			route: `/user/${route}`,
-			formProps: { formData: { ...formData, ...additionals }, setErrors },
-			protect: false,
-		});
-		if (!res) return res;
-
-		localStorage.setItem("refreshToken", res.refreshToken);
-		await Tokens.getAccessToken();
-		return res;
-	};
-
-	// ---------- signup handler
-	static signup = async (props: formProps) => {
-		return await this._auth("signup", { type: "student" }, props);
-	};
-
-	// ---------- login handler
-	static login = async (props: formProps) => {
-		return await this._auth("login", {}, props);
-	};
 }
 
 export interface formProps {

@@ -8,8 +8,8 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import signupLocale from "@/locales/signup";
 import { localeType } from "@/locales/common";
 import LanguageChanger from "@/components/languageChanger";
-import Forms from "@/utils/forms";
 import Tokens from "@/utils/tokens";
+import Auth from "@/utils/auth";
 
 const SignUpPage = () => {
 	const params = useParams();
@@ -95,7 +95,7 @@ const SignUpPage = () => {
 						fill: true,
 						textColor: "text-bright-one",
 						onclick: async () => {
-							(await Forms.signup({ setErrors, formData })) &&
+							(await Auth.signup({ setErrors, formData })) &&
 								router.push(redirectUrl);
 						},
 					},
